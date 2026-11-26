@@ -196,7 +196,7 @@ svg {
 }
 
 .page-content {
-    width: min(100% - 56px, 920px);
+    width: min(100% - 56px, 1080px);
     margin: 0 auto;
     padding: 42px 0 27px;
 }
@@ -1337,6 +1337,14 @@ svg {
     }
 
     .day-panel-note {
+        display: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .brand-divider,
+    .product-label,
+    .save-indicator {
         display: none;
     }
 }

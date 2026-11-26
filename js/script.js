@@ -338,7 +338,7 @@ function renderWeekPicker() {
     const selectedIndex = weeks.findIndex((week) => week.id === state.selectedWeekId);
     elements.previousWeek.disabled = selectedIndex <= 0;
     elements.nextWeek.disabled = selectedIndex === -1 || selectedIndex === weeks.length - 1;
-    elements.deleteWeek.disabled = weeks.length <= 1;
+    elements.deleteWeek.disabled = weeks.length === 0;
 }
 
 function renderDayList() {
@@ -606,7 +606,7 @@ function createWeek(copySelected) {
 }
 
 function openDeleteWeekDialog() {
-    if (state.weeks.length <= 1) return;
+    if (state.weeks.length === 0) return;
     elements.deleteWeekName.textContent = getSelectedWeek().title;
     elements.deleteWeekDialog.showModal();
 }
@@ -614,19 +614,23 @@ function openDeleteWeekDialog() {
 function deleteSelectedWeek(event) {
     event.preventDefault();
     const orderedWeeks = getOrderedWeeks();
-    if (orderedWeeks.length <= 1) return;
+    if (orderedWeeks.length === 0) return;
 
     const selectedIndex = orderedWeeks.findIndex((week) => week.id === state.selectedWeekId);
     const selectedWeek = orderedWeeks[selectedIndex];
     if (!selectedWeek) return;
 
     const fallbackWeek = orderedWeeks[selectedIndex + 1] || orderedWeeks[selectedIndex - 1];
+    const replacementWeek = orderedWeeks.length === 1
+        ? createBlankWeek(selectedWeek.startDate, getNextWeekNumber())
+        : null;
     const previousWeeks = state.weeks;
     const previousSelectedWeekId = state.selectedWeekId;
     const previousSelectedDayId = state.selectedDayId;
 
     state.weeks = state.weeks.filter((week) => week.id !== selectedWeek.id);
-    state.selectedWeekId = fallbackWeek.id;
+    if (replacementWeek) state.weeks.push(replacementWeek);
+    state.selectedWeekId = replacementWeek ? replacementWeek.id : fallbackWeek.id;
     state.selectedDayId = DAYS[0].id;
 
     if (!saveState()) {
@@ -640,7 +644,9 @@ function deleteSelectedWeek(event) {
 
     elements.deleteWeekDialog.close();
     render();
-    showToast("Semana excluída.");
+    showToast(replacementWeek
+        ? "Semana excluída. Uma nova semana em branco foi criada."
+        : "Semana excluída.");
 }
 
 function setActivityType(type) {

@@ -13,6 +13,9 @@ Organize sua rotina de musculação de segunda a sexta e consulte seus exercíci
 - Marque um dia como descanso com justificativa obrigatória e retome o treino sem perder o planejamento salvo.
 - Edite, exclua e reorganize os exercícios de cada dia.
 - Navegue pelas semanas anteriores e mantenha seus registros salvos automaticamente no navegador.
+- Acesse perfil e configurações para salvar nome, e-mail opcional e foto, escolher tema, meta semanal e unidade de peso.
+- Converta as cargas registradas ao trocar entre kg e lb, exporte seus dados em JSON, restaure preferências padrão ou limpe os dados com confirmação.
+- Lembretes por notificação não estão disponíveis nesta versão, que não possui agendamento em segundo plano.
 - Use a interface responsiva em computadores e celulares, com tema escuro por padrão.
 
 ## Como usar

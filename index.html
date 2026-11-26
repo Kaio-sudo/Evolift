@@ -27,6 +27,10 @@
                     <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" /></svg>
                     <span>Nova semana</span>
                 </button>
+                <button class="icon-button profile-trigger" id="open-profile" type="button" aria-label="Perfil e configurações" title="Perfil e configurações">
+                    <img id="profile-trigger-avatar" alt="" hidden>
+                    <svg id="profile-trigger-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="6.5" r="3" /><path d="M4.5 17v-1.5a5.5 5.5 0 0 1 11 0V17Z" /></svg>
+                </button>
             </div>
         </header>
 
@@ -141,6 +145,147 @@
         <h1>Não foi possível carregar seus treinos</h1>
         <p id="fatal-error-message">Verifique o armazenamento local do navegador e tente novamente.</p>
     </section>
+
+    <dialog class="dialog profile-dialog" id="profile-dialog" aria-labelledby="profile-dialog-title">
+        <form class="profile-form" id="profile-form">
+            <div class="dialog-heading">
+                <div>
+                    <p class="eyebrow">SUA CONTA NESTE DISPOSITIVO</p>
+                    <h2 id="profile-dialog-title">Perfil e configurações</h2>
+                </div>
+                <button class="icon-button dialog-close" id="close-profile-dialog" type="button" aria-label="Fechar">
+                    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg>
+                </button>
+            </div>
+            <p class="profile-feedback" id="profile-feedback" role="alert" hidden></p>
+
+            <section class="profile-section" aria-labelledby="profile-section-title">
+                <div class="profile-section-heading">
+                    <h3 id="profile-section-title">Meu perfil</h3>
+                    <span>Opcional</span>
+                </div>
+                <div class="profile-photo-row">
+                    <div class="profile-avatar-preview" id="profile-avatar-preview" aria-hidden="true">
+                        <span id="profile-avatar-initials">E</span>
+                        <img id="profile-avatar-image" alt="" hidden>
+                    </div>
+                    <div class="profile-photo-actions">
+                        <label class="button button-quiet profile-upload-button" for="profile-avatar-input">
+                            Escolher foto
+                            <input class="visually-hidden" id="profile-avatar-input" type="file" accept="image/png,image/jpeg,image/webp">
+                        </label>
+                        <button class="button button-quiet profile-remove-photo" id="remove-profile-avatar" type="button" hidden>Remover foto</button>
+                        <small>PNG, JPG ou WebP. Até 5 MB.</small>
+                    </div>
+                </div>
+                <div class="profile-field-grid">
+                    <label class="form-field">
+                        <span>Nome ou apelido <small>opcional</small></span>
+                        <input id="profile-name" type="text" maxlength="60" autocomplete="nickname" placeholder="Como quer ser chamado?">
+                    </label>
+                    <label class="form-field">
+                        <span>E-mail <small>opcional</small></span>
+                        <input id="profile-email" type="email" maxlength="254" autocomplete="email" placeholder="voce@exemplo.com">
+                    </label>
+                </div>
+            </section>
+
+            <section class="profile-section" aria-labelledby="appearance-section-title">
+                <div class="profile-section-heading">
+                    <h3 id="appearance-section-title">Aparência</h3>
+                </div>
+                <label class="settings-control-row" for="appearance-select">
+                    <span><strong>Tema</strong><small>Escolha como o Evolift aparece.</small></span>
+                    <select id="appearance-select">
+                        <option value="dark">Escuro</option>
+                        <option value="light">Claro</option>
+                    </select>
+                </label>
+            </section>
+
+            <section class="profile-section" aria-labelledby="training-preferences-title">
+                <div class="profile-section-heading">
+                    <h3 id="training-preferences-title">Preferências de treino</h3>
+                </div>
+                <div class="profile-field-grid">
+                    <label class="form-field">
+                        <span>Meta semanal <small>dias de treino</small></span>
+                        <input id="weekly-goal" type="number" min="1" max="7" step="1" required>
+                    </label>
+                    <label class="form-field">
+                        <span>Unidade de peso</span>
+                        <select id="weight-unit">
+                            <option value="kg">Quilogramas (kg)</option>
+                            <option value="lb">Libras (lb)</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="settings-note" role="note">Ao trocar a unidade, as cargas já registradas também serão convertidas.</div>
+            </section>
+
+            <section class="profile-section" aria-labelledby="notifications-section-title">
+                <div class="profile-section-heading">
+                    <h3 id="notifications-section-title">Notificações</h3>
+                </div>
+                <p class="settings-note" role="note">Lembretes não estão disponíveis nesta versão, que não possui agendamento em segundo plano.</p>
+            </section>
+
+            <section class="profile-section" aria-labelledby="data-section-title">
+                <div class="profile-section-heading">
+                    <h3 id="data-section-title">Dados e privacidade</h3>
+                </div>
+                <div class="data-actions">
+                    <button class="button button-quiet" id="export-data" type="button">Exportar dados</button>
+                    <button class="button button-quiet" id="restore-settings" type="button">Restaurar configurações padrão</button>
+                    <button class="button button-danger-quiet" id="clear-data" type="button">Limpar dados armazenados</button>
+                </div>
+                <p class="settings-note" role="note">Seus dados ficam apenas neste navegador e neste dispositivo.</p>
+            </section>
+
+            <div class="dialog-actions profile-dialog-actions">
+                <button class="button button-quiet" id="cancel-profile" type="button">Cancelar</button>
+                <button class="button button-primary" type="submit">Salvar alterações</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog class="dialog confirmation-dialog" id="restore-settings-dialog" aria-labelledby="restore-settings-title">
+        <form class="exercise-form" id="restore-settings-form">
+            <div class="dialog-heading">
+                <div>
+                    <p class="eyebrow">CONFIGURAÇÕES</p>
+                    <h2 id="restore-settings-title">Restaurar padrões?</h2>
+                </div>
+                <button class="icon-button dialog-close" id="close-restore-settings" type="button" aria-label="Fechar">
+                    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg>
+                </button>
+            </div>
+            <p class="rest-dialog-copy">A aparência voltará ao tema escuro, a meta será de 5 dias e a unidade será kg. Seus treinos e dados de perfil serão mantidos.</p>
+            <div class="dialog-actions">
+                <button class="button button-quiet" id="cancel-restore-settings" type="button">Cancelar</button>
+                <button class="button button-primary" type="submit">Restaurar padrões</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog class="dialog confirmation-dialog" id="clear-data-dialog" aria-labelledby="clear-data-title">
+        <form class="exercise-form" id="clear-data-form">
+            <div class="dialog-heading">
+                <div>
+                    <p class="eyebrow">DADOS E PRIVACIDADE</p>
+                    <h2 id="clear-data-title">Limpar todos os dados?</h2>
+                </div>
+                <button class="icon-button dialog-close" id="close-clear-data" type="button" aria-label="Fechar">
+                    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg>
+                </button>
+            </div>
+            <p class="rest-dialog-copy">Todas as semanas, treinos, perfil e preferências salvos neste navegador serão apagados. O Evolift será reiniciado com uma Semana 1 vazia. Esta ação não pode ser desfeita.</p>
+            <div class="dialog-actions">
+                <button class="button button-quiet" id="cancel-clear-data" type="button">Cancelar</button>
+                <button class="button button-danger-quiet" type="submit">Limpar tudo</button>
+            </div>
+        </form>
+    </dialog>
 
     <dialog class="dialog" id="exercise-dialog" aria-labelledby="dialog-title">
         <form class="exercise-form" id="exercise-form">

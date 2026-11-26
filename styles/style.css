@@ -315,6 +315,29 @@ svg {
     stroke-width: 1.5;
 }
 
+.profile-trigger {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    overflow: hidden;
+    border-color: #3a463d;
+    background: #202820;
+    color: #b6c09f;
+}
+
+.profile-trigger:hover:not(:disabled) {
+    border-color: #64705e;
+    background: #2a342d;
+    color: var(--text);
+}
+
+.profile-trigger img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 .select-wrap {
     position: relative;
     display: inline-flex;
@@ -1021,6 +1044,187 @@ svg {
     border-color: #38433b;
 }
 
+.profile-dialog {
+    width: min(100% - 28px, 600px);
+    max-height: min(92vh, 780px);
+}
+
+.profile-form {
+    display: grid;
+    gap: 15px;
+    padding: 23px;
+}
+
+.profile-feedback {
+    margin: -4px 0 0;
+    padding: 9px 11px;
+    border: 1px solid #53634b;
+    border-radius: 4px;
+    background: #273328;
+    color: #d7dfc7;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.profile-feedback.is-error {
+    border-color: #96634f;
+    background: #382b26;
+    color: #f0dfd1;
+}
+
+.profile-section {
+    display: grid;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid #354037;
+}
+
+.profile-section-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.profile-section-heading h3 {
+    margin: 0;
+    color: #e4e3d8;
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.profile-section-heading > span {
+    color: #7d887c;
+    font-size: 9px;
+}
+
+.profile-photo-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.profile-avatar-preview {
+    display: grid;
+    width: 62px;
+    height: 62px;
+    flex: 0 0 62px;
+    overflow: hidden;
+    place-items: center;
+    border: 1px solid #52604d;
+    border-radius: 50%;
+    background: #303b31;
+    color: #d7ddc0;
+    font-family: var(--serif);
+    font-size: 20px;
+}
+
+.profile-avatar-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-photo-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 7px;
+}
+
+.profile-photo-actions small {
+    flex-basis: 100%;
+    color: #7d887c;
+    font-size: 9px;
+}
+
+.profile-upload-button {
+    position: relative;
+    min-height: 31px;
+    font-size: 9px;
+    cursor: pointer;
+}
+
+.profile-upload-button:focus-within {
+    outline: 2px solid #d5a77e;
+    outline-offset: 2px;
+}
+
+.profile-field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.settings-control-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(130px, 190px);
+    align-items: center;
+    gap: 14px;
+}
+
+.settings-control-row > span {
+    display: grid;
+    gap: 4px;
+}
+
+.settings-control-row strong {
+    color: #d8d9ce;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.settings-control-row small {
+    color: #879286;
+    font-size: 9px;
+}
+
+.settings-control-row select,
+.profile-field-grid select {
+    min-height: 36px;
+    padding: 0 9px;
+    border: 1px solid #3a463d;
+    border-radius: 4px;
+    outline: none;
+    background: #19211c;
+    color: #e5e5d9;
+    font-size: 10px;
+}
+
+.settings-control-row select:focus,
+.profile-field-grid select:focus {
+    border-color: #899775;
+    box-shadow: 0 0 0 2px rgba(145, 161, 122, .12);
+}
+
+.settings-note {
+    margin: 0;
+    color: #879286;
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+.data-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.data-actions .button {
+    min-height: 32px;
+    font-size: 9px;
+}
+
+.profile-dialog-actions {
+    padding-top: 12px;
+    border-top: 1px solid #354037;
+}
+
+.confirmation-dialog {
+    width: min(100% - 28px, 440px);
+}
+
 .activity-type-picker {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1573,6 +1777,495 @@ svg {
 
     #reset-weeks {
         font-size: 9px;
+    }
+}
+
+:root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #f3f1e8;
+    --surface: #fbfaf5;
+    --surface-raised: #f5f3ea;
+    --surface-soft: #eceee4;
+    --line: #d3d9ce;
+    --line-soft: #e1e4da;
+    --text: #29342d;
+    --muted: #667265;
+    --quiet: #788174;
+    --moss: #68795d;
+    --moss-strong: #c3d0aa;
+    --clay: #a86f4f;
+    --danger: #a34e43;
+}
+
+:root[data-theme="light"] body {
+    background: var(--bg);
+    color: var(--text);
+}
+
+:root[data-theme="light"] .app-header {
+    border-color: #d9ddd2;
+    background: #faf9f2;
+}
+
+:root[data-theme="light"] .brand-divider {
+    background: #d0d6ca;
+}
+
+:root[data-theme="light"] .product-label,
+:root[data-theme="light"] .save-indicator {
+    color: #647064;
+}
+
+:root[data-theme="light"] .save-dot {
+    background: #758b62;
+}
+
+:root[data-theme="light"] .button-primary {
+    background: #b7c69a;
+    color: #283328;
+}
+
+:root[data-theme="light"] .button-primary:hover {
+    background: #a9bb88;
+}
+
+:root[data-theme="light"] .button-quiet {
+    border-color: #cbd2c5;
+    background: #f8f7f0;
+    color: #4f5c50;
+}
+
+:root[data-theme="light"] .button-quiet:hover {
+    border-color: #aab79e;
+    background: #edf0e7;
+    color: #2e3a30;
+}
+
+:root[data-theme="light"] .button-danger-quiet {
+    border-color: #d8b0a5;
+    background: #f7ebe7;
+    color: #91483d;
+}
+
+:root[data-theme="light"] .button-danger-quiet:hover {
+    border-color: #bd8072;
+    background: #f1ddd7;
+    color: #78372e;
+}
+
+:root[data-theme="light"] .button-rest-quiet {
+    border-color: #d7c09d;
+    background: #f5f0e2;
+    color: #805c35;
+}
+
+:root[data-theme="light"] .button-rest-quiet:hover {
+    border-color: #bba071;
+    background: #eee5d1;
+    color: #684728;
+}
+
+:root[data-theme="light"] .profile-trigger {
+    border-color: #cbd2c5;
+    background: #f8f7f0;
+    color: #64745b;
+}
+
+:root[data-theme="light"] .profile-trigger:hover:not(:disabled) {
+    border-color: #aab79e;
+    background: #edf0e7;
+    color: #344135;
+}
+
+:root[data-theme="light"] .eyebrow,
+:root[data-theme="light"] .week-heading h2 {
+    color: #56644f;
+}
+
+:root[data-theme="light"] .intro h1,
+:root[data-theme="light"] .workout-heading h2,
+:root[data-theme="light"] .exercise-section-heading h3,
+:root[data-theme="light"] .empty-title {
+    color: #29342d;
+}
+
+:root[data-theme="light"] .intro h1 span,
+:root[data-theme="light"] .intro-copy,
+:root[data-theme="light"] .week-range,
+:root[data-theme="light"] .storage-note,
+:root[data-theme="light"] .page-footer {
+    color: #687568;
+}
+
+:root[data-theme="light"] .week-picker {
+    border-color: #d4dacf;
+    background: #faf9f3;
+}
+
+:root[data-theme="light"] .select-wrap select {
+    color: #344136;
+}
+
+:root[data-theme="light"] .select-wrap select option {
+    background: #fbfaf5;
+    color: #29342d;
+}
+
+:root[data-theme="light"] .select-wrap > svg {
+    stroke: #687568;
+}
+
+:root[data-theme="light"] .icon-button {
+    color: #657365;
+}
+
+:root[data-theme="light"] .icon-button:hover:not(:disabled) {
+    background: #e9ede4;
+    color: #2f3b31;
+}
+
+:root[data-theme="light"] .icon-button:disabled {
+    color: #aab1a5;
+}
+
+:root[data-theme="light"] .workout-layout {
+    border-color: #d5dbd1;
+    background: var(--surface);
+}
+
+:root[data-theme="light"] .day-panel {
+    border-color: #d5dbd1;
+    background: #f4f5ee;
+}
+
+:root[data-theme="light"] .panel-label,
+:root[data-theme="light"] .day-name {
+    color: #4c594d;
+}
+
+:root[data-theme="light"] .panel-label span,
+:root[data-theme="light"] .day-summary,
+:root[data-theme="light"] .day-panel-note {
+    color: #778276;
+}
+
+:root[data-theme="light"] .day-button:hover {
+    background: #ecefe6;
+}
+
+:root[data-theme="light"] .day-button.is-selected {
+    border-color: #bdc9b2;
+    background: #e7ecdf;
+}
+
+:root[data-theme="light"] .day-initial {
+    border-color: #cbd3c5;
+    color: #62705a;
+}
+
+:root[data-theme="light"] .day-button.is-selected .day-initial {
+    border-color: #9baa8d;
+    background: #dce5d2;
+    color: #40503d;
+}
+
+:root[data-theme="light"] .day-button.is-selected .day-summary {
+    color: #56664f;
+}
+
+:root[data-theme="light"] .day-status {
+    border-color: #9aa493;
+}
+
+:root[data-theme="light"] .workout-name-input,
+:root[data-theme="light"] .form-field input,
+:root[data-theme="light"] .form-field textarea,
+:root[data-theme="light"] .set-input-field input,
+:root[data-theme="light"] .settings-control-row select,
+:root[data-theme="light"] .profile-field-grid select {
+    border-color: #cbd3c8;
+    background: #fffefa;
+    color: #29342d;
+}
+
+:root[data-theme="light"] .workout-name-input::placeholder,
+:root[data-theme="light"] .form-field input::placeholder,
+:root[data-theme="light"] .form-field textarea::placeholder,
+:root[data-theme="light"] .set-input-field input::placeholder {
+    color: #899386;
+}
+
+:root[data-theme="light"] .field-label,
+:root[data-theme="light"] .form-field > span,
+:root[data-theme="light"] .set-fields-heading,
+:root[data-theme="light"] .rest-reason-label {
+    color: #647163;
+}
+
+:root[data-theme="light"] .exercise-count,
+:root[data-theme="light"] .set-fields-heading span:last-child,
+:root[data-theme="light"] .set-input-field > span,
+:root[data-theme="light"] .set-input-field > span small,
+:root[data-theme="light"] .form-field > span small,
+:root[data-theme="light"] .settings-note,
+:root[data-theme="light"] .profile-section-heading > span {
+    color: #768174;
+}
+
+:root[data-theme="light"] .exercise-item {
+    border-color: #d8ddd3;
+    background: #fffefa;
+}
+
+:root[data-theme="light"] .exercise-number {
+    border-color: #d2d9cc;
+    color: #657256;
+}
+
+:root[data-theme="light"] .exercise-title,
+:root[data-theme="light"] .profile-section-heading h3,
+:root[data-theme="light"] .settings-control-row strong {
+    color: #303b31;
+}
+
+:root[data-theme="light"] .exercise-set {
+    border-color: #d8dfd3;
+    background: #f3f5ed;
+}
+
+:root[data-theme="light"] .set-name,
+:root[data-theme="light"] .set-reps,
+:root[data-theme="light"] .exercise-note {
+    color: #687568;
+}
+
+:root[data-theme="light"] .set-weight {
+    color: #556948;
+}
+
+:root[data-theme="light"] .activity-type-label {
+    color: #687568;
+}
+
+:root[data-theme="light"] .activity-type-label.is-cardio {
+    color: #98613f;
+}
+
+:root[data-theme="light"] .cardio-meta-item {
+    border-color: #dfd2b9;
+    background: #f6f1e6;
+    color: #785c37;
+}
+
+:root[data-theme="light"] .exercise-action {
+    color: #687568;
+}
+
+:root[data-theme="light"] .exercise-action:hover:not(:disabled) {
+    border-color: #d1d9cc;
+    background: #edf0e8;
+    color: #303b31;
+}
+
+:root[data-theme="light"] .exercise-action:disabled {
+    color: #b4baaf;
+}
+
+:root[data-theme="light"] .exercise-action.is-delete:hover {
+    border-color: #d8b0a5;
+    background: #f7ebe7;
+    color: #a34e43;
+}
+
+:root[data-theme="light"] .empty-state {
+    border-color: #cbd4c8;
+    background: #f7f8f2;
+}
+
+:root[data-theme="light"] .empty-mark {
+    border-color: #c5d0b9;
+    color: #647653;
+}
+
+:root[data-theme="light"] .empty-copy {
+    color: #687568;
+}
+
+:root[data-theme="light"] .add-exercise-button {
+    border-color: #b9c5ad;
+    color: #546648;
+}
+
+:root[data-theme="light"] .add-exercise-button:hover {
+    border-color: #899c78;
+    background: #eff2e9;
+}
+
+:root[data-theme="light"] .rest-state {
+    border-color: #d6dacf;
+    background: #f4f4ed;
+}
+
+:root[data-theme="light"] .rest-state-mark {
+    border-color: #d8c8a9;
+    background: #f2ecdd;
+    color: #8e6a43;
+}
+
+:root[data-theme="light"] .rest-state > .eyebrow {
+    color: #8b6947;
+}
+
+:root[data-theme="light"] .rest-state h3 {
+    color: #303a31;
+}
+
+:root[data-theme="light"] .rest-reason {
+    border-color: #ae8562;
+    background: #eeece3;
+    color: #394239;
+}
+
+:root[data-theme="light"] .rest-planned-workout {
+    color: #687568;
+}
+
+:root[data-theme="light"] .dialog {
+    border-color: #cbd3c7;
+    background: #fbfaf5;
+    color: #29342d;
+}
+
+:root[data-theme="light"] .dialog::backdrop {
+    background: rgba(37, 43, 35, .38);
+}
+
+:root[data-theme="light"] .dialog-heading h2 {
+    color: #29342d;
+}
+
+:root[data-theme="light"] .rest-dialog-copy {
+    color: #687568;
+}
+
+:root[data-theme="light"] .dialog-close {
+    border-color: #d1d8cc;
+}
+
+:root[data-theme="light"] .profile-feedback {
+    border-color: #b6c4a8;
+    background: #edf2e7;
+    color: #3d4d38;
+}
+
+:root[data-theme="light"] .profile-feedback.is-error {
+    border-color: #d0a196;
+    background: #f5e6e1;
+    color: #67392f;
+}
+
+:root[data-theme="light"] .profile-section {
+    border-color: #dce1d7;
+}
+
+:root[data-theme="light"] .profile-avatar-preview {
+    border-color: #b9c6ac;
+    background: #e8ede1;
+    color: #526449;
+}
+
+:root[data-theme="light"] .profile-dialog-actions {
+    border-color: #dce1d7;
+}
+
+:root[data-theme="light"] .activity-type-picker {
+    border-color: #d5dbd1;
+    background: #f2f3ec;
+}
+
+:root[data-theme="light"] .activity-type-button {
+    color: #687568;
+}
+
+:root[data-theme="light"] .activity-type-button.is-active {
+    border-color: #bdc9b2;
+    background: #e4eadc;
+    color: #40503d;
+}
+
+:root[data-theme="light"] .set-field-row {
+    border-color: #d8ddd3;
+    background: #f5f6ef;
+}
+
+:root[data-theme="light"] .set-field-name {
+    color: #5f6f53;
+}
+
+:root[data-theme="light"] .dialog-actions {
+    border-color: #dce1d7;
+}
+
+:root[data-theme="light"] .toast {
+    border-color: #a9b79c;
+    background: #e7edde;
+    color: #2e3b2f;
+}
+
+:root[data-theme="light"] .toast.is-error {
+    border-color: #d0a196;
+    background: #f5e6e1;
+    color: #67392f;
+}
+
+:root[data-theme="light"] .fatal-error {
+    border-color: #d4b5a8;
+    background: #fbf8f1;
+}
+
+:root[data-theme="light"] .fatal-error h1 {
+    color: #303930;
+}
+
+:root[data-theme="light"] .fatal-error p {
+    color: #6f6a60;
+}
+
+@media (max-width: 520px) {
+    .header-actions {
+        gap: 9px;
+    }
+
+    .profile-form {
+        gap: 12px;
+        padding: 18px 15px;
+    }
+
+    .profile-field-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .settings-control-row {
+        grid-template-columns: minmax(0, 1fr) minmax(120px, 45%);
+        gap: 8px;
+    }
+
+    .data-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .profile-dialog-actions .button {
+        flex: 1;
+        padding: 0 8px;
+        font-size: 9px;
+    }
+}
+
+@media (max-width: 360px) {
+    .header-actions {
+        gap: 7px;
     }
 }
 

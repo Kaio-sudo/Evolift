@@ -6,6 +6,9 @@ const DAYS = [
     { id: "thursday", name: "Quinta-feira", shortName: "Quinta", initial: "Q" },
     { id: "friday", name: "Sexta-feira", shortName: "Sexta", initial: "S" }
 ];
+const DEFAULT_PROFILE = { name: "", email: "", avatar: "" };
+const DEFAULT_SETTINGS = { appearance: "dark", weeklyGoal: 5, weightUnit: "kg" };
+const MAX_AVATAR_FILE_SIZE = 5 * 1024 * 1024;
 
 const elements = {
     app: document.querySelector("#app"),
@@ -41,6 +44,35 @@ const elements = {
     restReason: document.querySelector("#rest-reason"),
     restPlannedWorkout: document.querySelector("#rest-planned-workout"),
     resumeWorkout: document.querySelector("#resume-workout"),
+    openProfile: document.querySelector("#open-profile"),
+    profileTriggerAvatar: document.querySelector("#profile-trigger-avatar"),
+    profileTriggerIcon: document.querySelector("#profile-trigger-icon"),
+    profileDialog: document.querySelector("#profile-dialog"),
+    profileForm: document.querySelector("#profile-form"),
+    closeProfileDialog: document.querySelector("#close-profile-dialog"),
+    cancelProfile: document.querySelector("#cancel-profile"),
+    profileFeedback: document.querySelector("#profile-feedback"),
+    profileName: document.querySelector("#profile-name"),
+    profileEmail: document.querySelector("#profile-email"),
+    profileAvatarInput: document.querySelector("#profile-avatar-input"),
+    profileAvatarPreview: document.querySelector("#profile-avatar-preview"),
+    profileAvatarImage: document.querySelector("#profile-avatar-image"),
+    profileAvatarInitials: document.querySelector("#profile-avatar-initials"),
+    removeProfileAvatar: document.querySelector("#remove-profile-avatar"),
+    appearanceSelect: document.querySelector("#appearance-select"),
+    weeklyGoal: document.querySelector("#weekly-goal"),
+    weightUnit: document.querySelector("#weight-unit"),
+    exportData: document.querySelector("#export-data"),
+    restoreSettings: document.querySelector("#restore-settings"),
+    clearData: document.querySelector("#clear-data"),
+    restoreSettingsDialog: document.querySelector("#restore-settings-dialog"),
+    restoreSettingsForm: document.querySelector("#restore-settings-form"),
+    closeRestoreSettings: document.querySelector("#close-restore-settings"),
+    cancelRestoreSettings: document.querySelector("#cancel-restore-settings"),
+    clearDataDialog: document.querySelector("#clear-data-dialog"),
+    clearDataForm: document.querySelector("#clear-data-form"),
+    closeClearData: document.querySelector("#close-clear-data"),
+    cancelClearData: document.querySelector("#cancel-clear-data"),
     exerciseCount: document.querySelector("#exercise-count"),
     emptyState: document.querySelector("#empty-state"),
     exerciseList: document.querySelector("#exercise-list"),
@@ -78,6 +110,7 @@ let editingExerciseId = null;
 let editorActivityType = "exercise";
 let editorSetValues = [];
 let toastTimeout;
+let profileAvatarDraft = "";
 
 function toLocalISODate(date) {
     const year = date.getFullYear();
@@ -230,6 +263,33 @@ function saveState() {
     }
 }
 
+function normalizeProfile(profile) {
+    const savedProfile = profile && typeof profile === "object" ? profile : {};
+    const avatar = typeof savedProfile.avatar === "string" &&
+        /^data:image\/(?:jpeg|png|webp);base64,/i.test(savedProfile.avatar)
+        ? savedProfile.avatar
+        : "";
+
+    return {
+        name: typeof savedProfile.name === "string" ? savedProfile.name.slice(0, 60) : "",
+        email: typeof savedProfile.email === "string" ? savedProfile.email.slice(0, 254) : "",
+        avatar
+    };
+}
+
+function normalizeSettings(settings) {
+    const savedSettings = settings && typeof settings === "object" ? settings : {};
+    const weeklyGoal = Number(savedSettings.weeklyGoal);
+
+    return {
+        appearance: savedSettings.appearance === "light" ? "light" : DEFAULT_SETTINGS.appearance,
+        weeklyGoal: Number.isInteger(weeklyGoal) && weeklyGoal >= 1 && weeklyGoal <= 7
+            ? weeklyGoal
+            : DEFAULT_SETTINGS.weeklyGoal,
+        weightUnit: savedSettings.weightUnit === "lb" ? "lb" : DEFAULT_SETTINGS.weightUnit
+    };
+}
+
 function loadState() {
     const stored = window.localStorage.getItem(STORAGE_KEY);
     if (!stored) {
@@ -238,7 +298,9 @@ function loadState() {
             version: 1,
             selectedWeekId: initialWeek.id,
             selectedDayId: DAYS[0].id,
-            weeks: [initialWeek]
+            weeks: [initialWeek],
+            profile: { ...DEFAULT_PROFILE },
+            settings: { ...DEFAULT_SETTINGS }
         };
         window.localStorage.setItem(STORAGE_KEY, JSON.stringify(initialState));
         return initialState;
@@ -281,7 +343,9 @@ function loadState() {
         version: 1,
         selectedWeekId,
         selectedDayId,
-        weeks: orderedWeeks
+        weeks: orderedWeeks,
+        profile: normalizeProfile(parsed.profile),
+        settings: normalizeSettings(parsed.settings)
     };
 }
 
@@ -314,6 +378,177 @@ function showToast(message, isError = false) {
     toastTimeout = window.setTimeout(() => {
         elements.toast.classList.remove("is-visible");
     }, isError ? 6000 : 2800);
+}
+
+function applyAppearance(appearance = state.settings.appearance) {
+    document.documentElement.dataset.theme = appearance;
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor) themeColor.content = appearance === "light" ? "#f3f1e8" : "#171d1a";
+}
+
+function getProfileInitials(name) {
+    const initials = name.trim().split(/\s+/).slice(0, 2).map((part) => part[0]).join("");
+    return initials.toLocaleUpperCase("pt-BR") || "E";
+}
+
+function renderAvatarPreview(avatar) {
+    const hasAvatar = Boolean(avatar);
+    elements.profileAvatarImage.hidden = !hasAvatar;
+    elements.profileAvatarInitials.hidden = hasAvatar;
+    elements.removeProfileAvatar.hidden = !hasAvatar;
+    if (hasAvatar) elements.profileAvatarImage.src = avatar;
+    else elements.profileAvatarImage.removeAttribute("src");
+    elements.profileAvatarInitials.textContent = getProfileInitials(elements.profileName.value);
+}
+
+function renderProfileTrigger() {
+    const hasAvatar = Boolean(state.profile.avatar);
+    elements.profileTriggerAvatar.hidden = !hasAvatar;
+    elements.profileTriggerIcon.hidden = hasAvatar;
+    if (hasAvatar) elements.profileTriggerAvatar.src = state.profile.avatar;
+    else elements.profileTriggerAvatar.removeAttribute("src");
+    elements.openProfile.setAttribute(
+        "aria-label",
+        state.profile.name ? `Perfil de ${state.profile.name}` : "Perfil e configurações"
+    );
+}
+
+function renderProfileForm() {
+    elements.profileName.value = state.profile.name;
+    elements.profileEmail.value = state.profile.email;
+    elements.appearanceSelect.value = state.settings.appearance;
+    elements.weeklyGoal.value = String(state.settings.weeklyGoal);
+    elements.weightUnit.value = state.settings.weightUnit;
+    profileAvatarDraft = state.profile.avatar;
+    renderAvatarPreview(profileAvatarDraft);
+    setProfileFeedback("");
+}
+
+function setProfileFeedback(message, isError = false) {
+    elements.profileFeedback.textContent = message;
+    elements.profileFeedback.hidden = !message;
+    elements.profileFeedback.classList.toggle("is-error", isError);
+}
+
+function openProfileDialog() {
+    renderProfileForm();
+    elements.profileDialog.showModal();
+}
+
+function convertWorkoutWeights(fromUnit, toUnit) {
+    if (fromUnit === toUnit) return [];
+    const factor = fromUnit === "kg" ? 2.20462262 : 0.45359237;
+    const changes = [];
+
+    state.weeks.forEach((week) => {
+        week.days.forEach((day) => {
+            day.exercises.forEach((exercise) => {
+                if (!Array.isArray(exercise.sets)) return;
+                exercise.sets.forEach((set) => {
+                    const value = Number(set.weight.trim().replace(",", "."));
+                    if (!set.weight.trim() || !Number.isFinite(value)) return;
+                    changes.push({ set, weight: set.weight });
+                    set.weight = String(Number((value * factor).toFixed(2)));
+                });
+            });
+        });
+    });
+
+    return changes;
+}
+
+function restoreWorkoutWeights(changes) {
+    changes.forEach(({ set, weight }) => {
+        set.weight = weight;
+    });
+}
+
+function saveProfileAndSettings(event) {
+    event.preventDefault();
+    const previousProfile = state.profile;
+    const previousSettings = state.settings;
+    const nextSettings = {
+        appearance: elements.appearanceSelect.value === "light" ? "light" : "dark",
+        weeklyGoal: Number(elements.weeklyGoal.value),
+        weightUnit: elements.weightUnit.value === "lb" ? "lb" : "kg"
+    };
+    const weightChanges = convertWorkoutWeights(state.settings.weightUnit, nextSettings.weightUnit);
+
+    state.profile = {
+        name: elements.profileName.value.trim(),
+        email: elements.profileEmail.value.trim(),
+        avatar: profileAvatarDraft
+    };
+    state.settings = nextSettings;
+
+    if (!saveState()) {
+        state.profile = previousProfile;
+        state.settings = previousSettings;
+        restoreWorkoutWeights(weightChanges);
+        applyAppearance(previousSettings.appearance);
+        setProfileFeedback("Não foi possível salvar. Verifique o espaço disponível no navegador.", true);
+        return;
+    }
+
+    applyAppearance();
+    renderProfileTrigger();
+    elements.profileDialog.close();
+    render();
+    showToast("Perfil e configurações salvos.");
+}
+
+function loadProfileAvatar(event) {
+    const file = event.currentTarget.files[0];
+    if (!file) return;
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+        setProfileFeedback("Escolha uma imagem PNG, JPG ou WebP.", true);
+        elements.profileAvatarInput.value = "";
+        return;
+    }
+    if (file.size > MAX_AVATAR_FILE_SIZE) {
+        setProfileFeedback("A foto precisa ter até 5 MB.", true);
+        elements.profileAvatarInput.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onerror = () => {
+        setProfileFeedback("Não foi possível ler a foto selecionada.", true);
+        elements.profileAvatarInput.value = "";
+    };
+    reader.onload = () => {
+        const image = new Image();
+        image.onerror = () => {
+            setProfileFeedback("Não foi possível abrir a foto selecionada.", true);
+            elements.profileAvatarInput.value = "";
+        };
+        image.onload = () => {
+            try {
+                const size = 256;
+                const scale = Math.max(size / image.width, size / image.height);
+                const canvas = document.createElement("canvas");
+                canvas.width = size;
+                canvas.height = size;
+                const context = canvas.getContext("2d");
+                if (!context) throw new Error("O navegador não conseguiu preparar a foto.");
+                context.drawImage(
+                    image,
+                    (size - image.width * scale) / 2,
+                    (size - image.height * scale) / 2,
+                    image.width * scale,
+                    image.height * scale
+                );
+                profileAvatarDraft = canvas.toDataURL("image/jpeg", 0.82);
+                renderAvatarPreview(profileAvatarDraft);
+            } catch (error) {
+                console.error("Não foi possível preparar a foto do perfil.", error);
+                setProfileFeedback(error.message || "Não foi possível preparar a foto.", true);
+            }
+            elements.profileAvatarInput.value = "";
+        };
+        image.src = reader.result;
+    };
+    reader.readAsDataURL(file);
 }
 
 function renderGreeting() {
@@ -397,7 +632,7 @@ function formatWeight(weight) {
     const value = weight.trim();
     if (!value) return "Sem carga";
     const numericValue = Number(value.replace(",", "."));
-    return Number.isFinite(numericValue) ? `${value} kg` : value;
+    return Number.isFinite(numericValue) ? `${value} ${state.settings.weightUnit}` : value;
 }
 
 function createSeparator() {
@@ -556,6 +791,7 @@ function render() {
     renderWeekPicker();
     renderDayList();
     renderWorkout();
+    renderProfileTrigger();
 }
 
 function selectWeek(weekId) {
@@ -687,6 +923,72 @@ function restartFromWeekOne(event) {
     showToast("Organização reiniciada na Semana 1.");
 }
 
+function restoreDefaultSettings(event) {
+    event.preventDefault();
+    const previousSettings = state.settings;
+    const weightChanges = convertWorkoutWeights(state.settings.weightUnit, DEFAULT_SETTINGS.weightUnit);
+    state.settings = { ...DEFAULT_SETTINGS };
+
+    if (!saveState()) {
+        state.settings = previousSettings;
+        restoreWorkoutWeights(weightChanges);
+        setProfileFeedback("Não foi possível salvar. Verifique o espaço disponível no navegador.", true);
+        return;
+    }
+
+    elements.restoreSettingsDialog.close();
+    applyAppearance();
+    renderProfileForm();
+    render();
+    setProfileFeedback("Configurações padrão restauradas.");
+}
+
+function clearStoredData(event) {
+    event.preventDefault();
+    elements.clearDataDialog.close();
+    elements.profileDialog.close();
+
+    try {
+        window.localStorage.removeItem(STORAGE_KEY);
+        state = loadState();
+    } catch (error) {
+        console.error("Não foi possível limpar os dados do Evolift.", error);
+        showToast("Não foi possível limpar os dados armazenados.", true);
+        return;
+    }
+
+    applyAppearance();
+    render();
+    showToast("Dados limpos. O Evolift foi reiniciado.");
+}
+
+function exportStoredData() {
+    try {
+        const exportPayload = {
+            application: "Evolift",
+            exportedAt: new Date().toISOString(),
+            data: state
+        };
+        const file = new Blob([JSON.stringify(exportPayload, null, 2)], {
+            type: "application/json"
+        });
+        const fileUrl = URL.createObjectURL(file);
+        const link = document.createElement("a");
+        link.href = fileUrl;
+        link.download = `evolift-backup-${toLocalISODate(new Date())}.json`;
+        link.click();
+        window.setTimeout(() => URL.revokeObjectURL(fileUrl), 1000);
+        setProfileFeedback("Cópia dos dados exportada.");
+    } catch (error) {
+        console.error("Não foi possível exportar os dados do Evolift.", error);
+        setProfileFeedback("Não foi possível exportar os dados.", true);
+    }
+}
+
+function updateProfileInitials() {
+    elements.profileAvatarInitials.textContent = getProfileInitials(elements.profileName.value);
+}
+
 function setActivityType(type) {
     editorActivityType = type;
     const isCardio = type === "cardio";
@@ -750,14 +1052,14 @@ function renderSetFields(values) {
         const weightField = document.createElement("label");
         weightField.className = "set-input-field";
         const weightLabel = document.createElement("span");
-        weightLabel.textContent = "Peso (kg)";
+        weightLabel.textContent = `Peso (${state.settings.weightUnit})`;
         const weightInput = document.createElement("input");
         weightInput.type = "text";
         weightInput.inputMode = "decimal";
         weightInput.maxLength = 12;
         weightInput.placeholder = "0";
         weightInput.value = set.weight;
-        weightInput.setAttribute("aria-label", `Peso em kg da série ${index + 1}`);
+        weightInput.setAttribute("aria-label", `Peso em ${state.settings.weightUnit} da série ${index + 1}`);
         weightInput.addEventListener("input", (event) => {
             editorSetValues[index].weight = event.currentTarget.value.trim();
         });
@@ -941,6 +1243,34 @@ function resumeWorkout() {
     if (saved) showToast("Treino retomado. Seu planejamento continua salvo.");
 }
 
+elements.openProfile.addEventListener("click", openProfileDialog);
+elements.closeProfileDialog.addEventListener("click", () => elements.profileDialog.close());
+elements.cancelProfile.addEventListener("click", () => elements.profileDialog.close());
+elements.profileDialog.addEventListener("close", () => {
+    applyAppearance();
+    renderProfileForm();
+});
+elements.profileForm.addEventListener("submit", saveProfileAndSettings);
+elements.profileName.addEventListener("input", updateProfileInitials);
+elements.profileAvatarInput.addEventListener("change", loadProfileAvatar);
+elements.removeProfileAvatar.addEventListener("click", () => {
+    profileAvatarDraft = "";
+    elements.profileAvatarInput.value = "";
+    renderAvatarPreview(profileAvatarDraft);
+});
+elements.appearanceSelect.addEventListener("change", (event) => {
+    applyAppearance(event.currentTarget.value);
+});
+elements.exportData.addEventListener("click", exportStoredData);
+elements.restoreSettings.addEventListener("click", () => elements.restoreSettingsDialog.showModal());
+elements.restoreSettingsForm.addEventListener("submit", restoreDefaultSettings);
+elements.closeRestoreSettings.addEventListener("click", () => elements.restoreSettingsDialog.close());
+elements.cancelRestoreSettings.addEventListener("click", () => elements.restoreSettingsDialog.close());
+elements.clearData.addEventListener("click", () => elements.clearDataDialog.showModal());
+elements.clearDataForm.addEventListener("submit", clearStoredData);
+elements.closeClearData.addEventListener("click", () => elements.clearDataDialog.close());
+elements.cancelClearData.addEventListener("click", () => elements.clearDataDialog.close());
+
 elements.weekSelect.addEventListener("change", (event) => {
     selectWeek(event.currentTarget.value);
 });
@@ -997,6 +1327,7 @@ elements.resumeWorkout.addEventListener("click", resumeWorkout);
 
 try {
     state = loadState();
+    applyAppearance();
     render();
 } catch (error) {
     console.error("Falha ao carregar os treinos do Evolift.", error);

@@ -1,18 +1,221 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evolift</title>
+    <meta name="theme-color" content="#171d1a">
+    <meta name="description" content="Organize seus treinos da semana e consulte seus exercícios na academia.">
+    <title>Treinos da semana — Evolift</title>
     <link rel="stylesheet" href="styles/style.css">
 </head>
 
 <body>
+    <div class="app-shell" id="app">
+        <header class="app-header">
+            <a class="brand" href="#" aria-label="Evolift, início">
+                <span class="brand-mark" aria-hidden="true">e</span>
+                <span class="brand-name">evolift<span>.</span></span>
+            </a>
+            <span class="brand-divider" aria-hidden="true"></span>
+            <span class="product-label">Organizador de treinos</span>
+            <div class="header-actions">
+                <span class="save-indicator"><span class="save-dot"></span>Salvo neste dispositivo</span>
+                <button class="button button-primary button-new-week" id="new-week" type="button">
+                    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" /></svg>
+                    <span>Nova semana</span>
+                </button>
+            </div>
+        </header>
 
-    
+        <main class="page-content">
+            <section class="intro" aria-labelledby="greeting">
+                <p class="eyebrow"><span class="date-mark"></span><span id="today-date"></span></p>
+                <h1 id="greeting">Bom dia. <span>Vamos organizar a semana?</span></h1>
+                <p class="intro-copy">Sua rotina de treino, simples e no seu ritmo.</p>
+            </section>
 
+            <section class="week-toolbar" aria-label="Navegação entre semanas">
+                <div class="week-heading">
+                    <p class="eyebrow">PLANEJAMENTO</p>
+                    <h2>Sua semana</h2>
+                </div>
+                <div class="week-controls">
+                    <div class="week-picker">
+                        <button class="icon-button" id="previous-week" type="button" aria-label="Semana anterior">
+                            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12 4-6 6 6 6" /></svg>
+                        </button>
+                        <label class="select-wrap">
+                            <span class="visually-hidden">Semana selecionada</span>
+                            <select id="week-select" aria-label="Semana selecionada"></select>
+                            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg>
+                        </label>
+                        <button class="icon-button" id="next-week" type="button" aria-label="Próxima semana">
+                            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m8 4 6 6-6 6" /></svg>
+                        </button>
+                    </div>
+                    <button class="button button-quiet" id="copy-week" type="button" title="Criar uma cópia desta semana">
+                        <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="9" height="10" rx="1.5" /><path d="M13 7V5.5A1.5 1.5 0 0 0 11.5 4h-6A1.5 1.5 0 0 0 4 5.5v7A1.5 1.5 0 0 0 5.5 14H7" /></svg>
+                        <span>Copiar semana</span>
+                    </button>
+                </div>
+            </section>
+
+            <div class="week-range" id="week-range"></div>
+
+            <section class="workout-layout" aria-label="Treinos da semana">
+                <nav class="day-panel" aria-label="Dias da semana">
+                    <p class="panel-label">DIAS DE TREINO <span>SEG — SEX</span></p>
+                    <div class="day-list" id="day-list"></div>
+                    <p class="day-panel-note">Escolha um dia para ver ou editar o treino.</p>
+                </nav>
+
+                <section class="workout-panel" aria-labelledby="selected-day-name">
+                    <div class="workout-heading">
+                        <div>
+                            <p class="eyebrow" id="selected-day-label">SEGUNDA-FEIRA</p>
+                            <h2 id="selected-day-name">Seu treino</h2>
+                        </div>
+                        <div class="workout-heading-actions">
+                            <button class="button button-rest-quiet" id="rest-button" type="button">Marcar descanso</button>
+                            <button class="button button-danger-quiet" id="clear-workout" type="button" hidden>Limpar treino</button>
+                        </div>
+                    </div>
+
+                    <div id="workout-content">
+                        <label class="field-label" for="workout-name">NOME DO TREINO</label>
+                        <input class="workout-name-input" id="workout-name" type="text" maxlength="60"
+                            placeholder="Ex.: Peito e tríceps" autocomplete="off">
+                        <div class="exercise-section-heading">
+                            <h3>Atividades</h3>
+                            <span class="exercise-count" id="exercise-count">0 exercícios</span>
+                        </div>
+
+                        <div class="empty-state" id="empty-state">
+                            <span class="empty-mark" aria-hidden="true">
+                                <svg viewBox="0 0 32 32"><path d="M16 7v18M7 16h18" /></svg>
+                            </span>
+                            <p class="empty-title">Ainda sem atividades</p>
+                            <p class="empty-copy">Adicione um exercício ou cardio para este dia.</p>
+                            <button class="button button-quiet empty-add-button" id="empty-add-exercise" type="button">
+                                Adicionar exercício
+                            </button>
+                        </div>
+
+                        <ol class="exercise-list" id="exercise-list" aria-label="Exercícios e cardio do treino"></ol>
+
+                        <button class="add-exercise-button" id="add-exercise" type="button">
+                            <span class="add-symbol" aria-hidden="true">+</span>
+                            Adicionar exercício
+                        </button>
+                        <p class="storage-note"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" /><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" /></svg>As alterações são salvas automaticamente neste navegador.</p>
+                    </div>
+
+                    <div class="rest-state" id="rest-state" hidden>
+                        <span class="rest-state-mark" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M19.2 14.1A8.3 8.3 0 0 1 9.9 4.8 8.5 8.5 0 1 0 19.2 14Z" /></svg>
+                        </span>
+                        <p class="eyebrow">DESCANSO REGISTRADO</p>
+                        <h3>Hoje é dia de recuperar.</h3>
+                        <p class="rest-reason-label">Sua justificativa</p>
+                        <blockquote class="rest-reason" id="rest-reason"></blockquote>
+                        <p class="rest-planned-workout" id="rest-planned-workout" hidden></p>
+                        <button class="button button-quiet resume-button" id="resume-workout" type="button">Retomar treino</button>
+                    </div>
+                </section>
+            </section>
+            <footer class="page-footer">Evolift <span>·</span> Sua rotina, organizada.</footer>
+        </main>
+    </div>
+
+    <section class="fatal-error" id="fatal-error" role="alert" hidden>
+        <span class="fatal-mark" aria-hidden="true">!</span>
+        <h1>Não foi possível carregar seus treinos</h1>
+        <p id="fatal-error-message">Verifique o armazenamento local do navegador e tente novamente.</p>
+    </section>
+
+    <dialog class="dialog" id="exercise-dialog" aria-labelledby="dialog-title">
+        <form class="exercise-form" id="exercise-form">
+            <div class="dialog-heading">
+                <div>
+                    <p class="eyebrow">DETALHES DO EXERCÍCIO</p>
+                    <h2 id="dialog-title">Adicionar atividade</h2>
+                </div>
+                <button class="icon-button dialog-close" id="close-dialog" type="button" aria-label="Fechar">
+                    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg>
+                </button>
+            </div>
+            <div class="activity-type-picker" id="activity-type-picker" role="group" aria-label="Tipo de atividade">
+                <button class="activity-type-button is-active" type="button" data-activity-type="exercise" aria-pressed="true">Exercício</button>
+                <button class="activity-type-button" type="button" data-activity-type="cardio" aria-pressed="false">Cardio</button>
+            </div>
+            <label class="form-field form-field-full">
+                <span>                <span id="activity-name-label">Nome do exercício</span> <b>*</b></span>
+                <input id="exercise-name" name="name" type="text" maxlength="80" placeholder="Ex.: Supino inclinado com halteres" required>
+            </label>
+            <div class="activity-fields" id="exercise-fields">
+                <label class="form-field form-field-full">
+                    <span>Séries <b>*</b></span>
+                    <input id="exercise-series" name="series" type="number" min="1" max="30" value="3" required>
+                </label>
+                <div class="set-fields-heading">
+                    <span>PESO POR SÉRIE</span>
+                    <span>Repetições opcionais</span>
+                </div>
+                <div class="set-fields" id="set-fields" aria-live="polite"></div>
+            </div>
+            <div class="activity-fields cardio-fields" id="cardio-fields" hidden>
+                <div class="form-row">
+                    <label class="form-field">
+                        <span>Duração (min) <b>*</b></span>
+                        <input id="cardio-duration" name="duration" type="number" min="1" max="1440" placeholder="Ex.: 30" required disabled>
+                    </label>
+                    <label class="form-field">
+                        <span>Distância (km) <small>opcional</small></span>
+                        <input id="cardio-distance" name="distance" type="number" min="0" step="0.1" placeholder="Ex.: 5" disabled>
+                    </label>
+                </div>
+                <label class="form-field form-field-full">
+                    <span>Intensidade <small>opcional</small></span>
+                    <input id="cardio-intensity" name="intensity" type="text" maxlength="40" placeholder="Ex.: Leve, moderada ou intensa" disabled>
+                </label>
+            </div>
+            <label class="form-field form-field-full">
+                <span>Observações <small>opcional</small></span>
+                <textarea id="exercise-notes" name="notes" rows="2" maxlength="180" placeholder="Ex.: manter o movimento controlado"></textarea>
+            </label>
+            <div class="dialog-actions">
+                <button class="button button-quiet" id="cancel-dialog" type="button">Cancelar</button>
+                <button class="button button-primary" id="save-exercise" type="submit">Adicionar atividade</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog class="dialog" id="rest-dialog" aria-labelledby="rest-dialog-title">
+        <form class="exercise-form" id="rest-form">
+            <div class="dialog-heading">
+                <div>
+                    <p class="eyebrow">DIA DE DESCANSO</p>
+                    <h2 id="rest-dialog-title">Registrar descanso</h2>
+                </div>
+                <button class="icon-button dialog-close" id="close-rest-dialog" type="button" aria-label="Fechar">
+                    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg>
+                </button>
+            </div>
+            <p class="rest-dialog-copy">Por que você precisou descansar? A justificativa fica salva junto deste dia.</p>
+            <label class="form-field form-field-full" for="rest-reason-input">
+                <span>Justificativa <b>*</b></span>
+                <textarea id="rest-reason-input" name="reason" rows="3" maxlength="240" placeholder="Escreva o motivo do descanso..." required></textarea>
+            </label>
+            <div class="dialog-actions">
+                <button class="button button-quiet" id="cancel-rest-dialog" type="button">Cancelar</button>
+                <button class="button button-primary" id="save-rest" type="submit">Salvar descanso</button>
+            </div>
+        </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="js/script.js"></script>
 </body>
-<script src="js/script.js"></script>
 
 </html>

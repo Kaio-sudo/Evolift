@@ -1,106 +1,38 @@
 # Evolift
 
+Organize sua rotina de musculação de segunda a sexta e consulte seus exercícios durante o treino.
 
-### Transforme seus treinos em evolução.
+## Funcionalidades
 
-O **Evolift** é uma aplicação web voltada ao gerenciamento e acompanhamento de treinos de musculação. Desenvolvido para centralizar informações, organizar rotinas de treinamento e permitir que o usuário acompanhe sua evolução de maneira prática, intuitiva e eficiente.
+- Organize os treinos de segunda a sexta em semanas independentes.
+- Crie uma semana em branco ou copie a semana selecionada para começar a próxima rotina.
+- Defina um nome para cada treino e cadastre exercícios com a quantidade de séries, uma carga e repetições opcionais para cada série, além de observações.
+- Adicione atividades de cardio ao treino com duração e, se quiser, distância, intensidade e observações.
+- Marque um dia como descanso com justificativa obrigatória e retome o treino sem perder o planejamento salvo.
+- Edite, exclua e reorganize os exercícios de cada dia.
+- Navegue pelas semanas anteriores e mantenha seus registros salvos automaticamente no navegador.
+- Use a interface responsiva em computadores e celulares, com tema escuro por padrão.
 
-Mais do que registrar exercícios, o Evolift busca transformar o acompanhamento dos treinos em uma experiência organizada, contribuindo para a consistência e o desenvolvimento contínuo do usuário.
+## Como usar
 
----
+Abra `index.html` no navegador ou inicie um servidor local, por exemplo com a extensão Live Server do Visual Studio Code. Escolha um dia da semana para cadastrar o treino e use os controles no topo para criar semanas ou copiar uma rotina existente.
 
-## 📌 Sobre o projeto
+Os dados são salvos no `localStorage` do navegador e ficam disponíveis no mesmo navegador e perfil de usuário. Não há servidor ou sincronização entre dispositivos. Limpar os dados do site no navegador também remove as semanas salvas.
 
-O projeto surgiu da necessidade de substituir anotações manuais por uma plataforma dedicada ao gerenciamento de atividades físicas.
+## Tecnologias
 
-A proposta é oferecer um ambiente centralizado no qual o usuário possa organizar seus treinos, registrar exercícios, consultar seu histórico e acompanhar seu desempenho ao longo do tempo.
+- HTML5
+- CSS3
+- JavaScript
 
-**Objetivo principal:** desenvolver uma ferramenta funcional, intuitiva e acessível que facilite o controle da rotina de musculação.
-
-## ✨ Funcionalidades
-
-As funcionalidades previstas para a aplicação incluem:
-
-- **Dashboard:** painel principal com informações relevantes sobre a rotina de treinamento.
-- **Gerenciamento de treinos:** criação, organização e edição de rotinas de exercícios.
-- **Cadastro de exercícios:** registro de exercícios com informações específicas.
-- **Registro de desempenho:** acompanhamento de séries, repetições e cargas utilizadas.
-- **Histórico de atividades:** consulta aos treinos realizados.
-- **Acompanhamento de evolução:** visualização do progresso ao longo do tempo.
-- **Organização semanal:** distribuição dos treinos conforme os dias da semana.
-
-## 🛠️ Tecnologias utilizadas
-
-| Tecnologia | Aplicação |
-|---|---|
-| HTML5 | Estruturação da aplicação |
-| CSS3 | Estilização e responsividade |
-| JavaScript | Lógica e interatividade |
-
-## 📂 Estrutura do projeto
+## Estrutura
 
 ```text
 Evolift/
-│
-├── assets/
-│   ├── css/
-│   │   └── style.css
-│   │
-│   ├── js/
-│   │   └── script.js
-│   │
-│   └── img/
-│
 ├── index.html
-│
+├── js/
+│   └── script.js
+├── styles/
+│   └── style.css
 └── README.md
 ```
-
-## 🚀 Como executar o projeto
-
-1. Clone este repositório:
-
-```bash
-git clone URL_DO_REPOSITORIO
-```
-
-2. Acesse a pasta do projeto:
-
-```bash
-cd Evolift
-```
-
-3. Abra o arquivo `index.html` no navegador ou utilize a extensão Live Server do Visual Studio Code.
-
-## 🎯 Objetivos de desenvolvimento
-
-- Desenvolver uma interface intuitiva e responsiva.
-- Implementar funcionalidades para gerenciamento de treinos.
-- Organizar e armazenar informações dos exercícios.
-- Facilitar o acompanhamento do desempenho físico.
-- Proporcionar uma experiência de utilização simples e eficiente.
-
-## 🔮 Melhorias futuras
-
-- Implementação de sistema de autenticação.
-- Armazenamento persistente de dados.
-- Gráficos de evolução de desempenho.
-- Dashboard com indicadores de progresso.
-- Integração com banco de dados.
-- Adaptação e otimização para dispositivos móveis.
-
-## 👨‍💻 Desenvolvedor
-
-**Kaio Henrique**
-
-Estudante de Análise e Desenvolvimento de Sistemas, interessado em desenvolvimento de software e criação de soluções digitais.
-
----
-
-<div align="center">
-
-**EVOLIFT**
-
-*Seu progresso não acontece por acaso. Ele é construído treino após treino.*
-
-</div>

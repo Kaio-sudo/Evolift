@@ -86,32 +86,26 @@ svg {
 .brand {
     display: inline-flex;
     align-items: center;
-    gap: 9px;
+    gap: 0;
 }
 
-.brand-mark {
-    display: grid;
-    width: 31px;
-    height: 31px;
-    place-items: center;
-    border: 1px solid #65745c;
-    border-radius: 9px 9px 9px 3px;
-    color: var(--moss-strong);
-    font-family: var(--serif);
-    font-size: 22px;
-    font-style: italic;
-    line-height: 1;
+.brand-logo-frame {
+    position: relative;
+    display: block;
+    width: 124px;
+    height: 46px;
+    overflow: hidden;
 }
 
-.brand-name {
-    color: #eeece1;
-    font-size: 19px;
-    font-weight: 650;
-    letter-spacing: -.9px;
-}
-
-.brand-name span {
-    color: var(--clay);
+.brand-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    width: 184px;
+    max-width: none;
+    height: auto;
+    transform: translate(-50%, -50%);
 }
 
 .brand-divider {

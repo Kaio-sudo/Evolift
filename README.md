@@ -20,9 +20,17 @@ Organize sua rotina de musculação de segunda a sexta e consulte seus exercíci
 
 ## Como usar
 
-Abra `index.html` no navegador ou inicie um servidor local, por exemplo com a extensão Live Server do Visual Studio Code. Escolha um dia da semana para cadastrar o treino e use os controles no topo para criar, copiar ou excluir apenas a semana selecionada. Use “Recomeçar na Semana 1” para apagar toda a organização salva e iniciar uma semana vazia.
+Abra `index.html` no navegador ou inicie o servidor local com `node .\serve.js`. Escolha um dia da semana para cadastrar o treino e use os controles no topo para criar, copiar ou excluir apenas a semana selecionada. Use “Recomeçar na Semana 1” para apagar toda a organização salva e iniciar uma semana vazia.
 
 Os dados são salvos no `localStorage` do navegador e ficam disponíveis no mesmo navegador e perfil de usuário. Não há servidor ou sincronização entre dispositivos. Limpar os dados do site no navegador também remove as semanas salvas.
+
+## Acessar pelo celular
+
+1. Conecte o computador e o celular à mesma rede Wi-Fi.
+2. No computador, abra o terminal na pasta do projeto e execute `node .\serve.js`.
+3. No celular, abra no navegador o endereço de rede exibido pelo servidor, por exemplo `http://192.168.1.10:4173`.
+
+Mantenha o computador e o servidor ligados durante o acesso. Se o Windows pedir autorização para o Node.js, permita o acesso em redes privadas. Cada dispositivo mantém seus próprios dados no navegador; eles não são sincronizados. Para acessar fora da rede local, o site precisa ser publicado em um serviço de hospedagem.
 
 ## Tecnologias
 

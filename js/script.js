@@ -8,7 +8,7 @@ const DAYS = [
 ];
 const DEFAULT_PROFILE = { name: "", email: "", avatar: "" };
 const DEFAULT_SETTINGS = { appearance: "dark", weeklyGoal: 5, weightUnit: "kg" };
-const MAX_AVATAR_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_AVATAR_FILE_SIZE = 20 * 1024 * 1024;
 
 const elements = {
     app: document.querySelector("#app"),
@@ -512,13 +512,13 @@ function saveProfileAndSettings(event) {
 function loadProfileAvatar(event) {
     const file = event.currentTarget.files[0];
     if (!file) return;
-    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
-        setProfileFeedback("Escolha uma imagem PNG, JPG ou WebP.", true);
+    if (file.type && !file.type.toLowerCase().startsWith("image/")) {
+        setProfileFeedback("Escolha um arquivo de imagem.", true);
         elements.profileAvatarInput.value = "";
         return;
     }
     if (file.size > MAX_AVATAR_FILE_SIZE) {
-        setProfileFeedback("A foto precisa ter até 5 MB.", true);
+        setProfileFeedback("A imagem precisa ter até 20 MB.", true);
         elements.profileAvatarInput.value = "";
         return;
     }
@@ -529,9 +529,14 @@ function loadProfileAvatar(event) {
         elements.profileAvatarInput.value = "";
     };
     reader.onload = () => {
+        if (typeof reader.result !== "string") {
+            setProfileFeedback("Não foi possível ler a foto selecionada.", true);
+            elements.profileAvatarInput.value = "";
+            return;
+        }
         const image = new Image();
         image.onerror = () => {
-            setProfileFeedback("Não foi possível abrir a foto selecionada.", true);
+            setProfileFeedback("Este formato não pode ser aberto pelo navegador. Tente uma versão JPG ou PNG.", true);
             elements.profileAvatarInput.value = "";
         };
         image.onload = () => {

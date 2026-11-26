@@ -1394,11 +1394,13 @@ svg {
 
     .week-controls {
         width: 100%;
+        flex-wrap: wrap;
         justify-content: space-between;
         gap: 6px;
     }
 
     .week-picker {
+        flex: 1 0 100%;
         min-width: 0;
     }
 
@@ -1411,10 +1413,13 @@ svg {
         font-size: 9px;
     }
 
-    #copy-week {
+    #copy-week,
+    #delete-week {
+        flex: 1;
         min-height: 34px;
         padding: 0 8px;
         font-size: 9px;
+        justify-content: center;
     }
 
     #copy-week svg {
@@ -1542,6 +1547,10 @@ svg {
 
     #copy-week {
         gap: 4px;
+        font-size: 8px;
+    }
+
+    #delete-week {
         font-size: 8px;
     }
 }

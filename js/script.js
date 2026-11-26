@@ -19,6 +19,12 @@ const elements = {
     nextWeek: document.querySelector("#next-week"),
     newWeek: document.querySelector("#new-week"),
     copyWeek: document.querySelector("#copy-week"),
+    deleteWeek: document.querySelector("#delete-week"),
+    deleteWeekDialog: document.querySelector("#delete-week-dialog"),
+    deleteWeekForm: document.querySelector("#delete-week-form"),
+    deleteWeekName: document.querySelector("#delete-week-name"),
+    closeDeleteWeekDialog: document.querySelector("#close-delete-week-dialog"),
+    cancelDeleteWeek: document.querySelector("#cancel-delete-week"),
     dayList: document.querySelector("#day-list"),
     selectedDayLabel: document.querySelector("#selected-day-label"),
     selectedDayName: document.querySelector("#selected-day-name"),
@@ -332,6 +338,7 @@ function renderWeekPicker() {
     const selectedIndex = weeks.findIndex((week) => week.id === state.selectedWeekId);
     elements.previousWeek.disabled = selectedIndex <= 0;
     elements.nextWeek.disabled = selectedIndex === -1 || selectedIndex === weeks.length - 1;
+    elements.deleteWeek.disabled = weeks.length <= 1;
 }
 
 function renderDayList() {
@@ -598,6 +605,44 @@ function createWeek(copySelected) {
     }
 }
 
+function openDeleteWeekDialog() {
+    if (state.weeks.length <= 1) return;
+    elements.deleteWeekName.textContent = getSelectedWeek().title;
+    elements.deleteWeekDialog.showModal();
+}
+
+function deleteSelectedWeek(event) {
+    event.preventDefault();
+    const orderedWeeks = getOrderedWeeks();
+    if (orderedWeeks.length <= 1) return;
+
+    const selectedIndex = orderedWeeks.findIndex((week) => week.id === state.selectedWeekId);
+    const selectedWeek = orderedWeeks[selectedIndex];
+    if (!selectedWeek) return;
+
+    const fallbackWeek = orderedWeeks[selectedIndex + 1] || orderedWeeks[selectedIndex - 1];
+    const previousWeeks = state.weeks;
+    const previousSelectedWeekId = state.selectedWeekId;
+    const previousSelectedDayId = state.selectedDayId;
+
+    state.weeks = state.weeks.filter((week) => week.id !== selectedWeek.id);
+    state.selectedWeekId = fallbackWeek.id;
+    state.selectedDayId = DAYS[0].id;
+
+    if (!saveState()) {
+        state.weeks = previousWeeks;
+        state.selectedWeekId = previousSelectedWeekId;
+        state.selectedDayId = previousSelectedDayId;
+        elements.deleteWeekDialog.close();
+        render();
+        return;
+    }
+
+    elements.deleteWeekDialog.close();
+    render();
+    showToast("Semana excluída.");
+}
+
 function setActivityType(type) {
     editorActivityType = type;
     const isCardio = type === "cardio";
@@ -860,6 +905,10 @@ elements.previousWeek.addEventListener("click", () => moveWeek(-1));
 elements.nextWeek.addEventListener("click", () => moveWeek(1));
 elements.newWeek.addEventListener("click", () => createWeek(false));
 elements.copyWeek.addEventListener("click", () => createWeek(true));
+elements.deleteWeek.addEventListener("click", openDeleteWeekDialog);
+elements.deleteWeekForm.addEventListener("submit", deleteSelectedWeek);
+elements.closeDeleteWeekDialog.addEventListener("click", () => elements.deleteWeekDialog.close());
+elements.cancelDeleteWeek.addEventListener("click", () => elements.deleteWeekDialog.close());
 
 elements.dayList.addEventListener("click", (event) => {
     const button = event.target.closest("button[data-day-id]");

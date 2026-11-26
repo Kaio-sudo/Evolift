@@ -6,6 +6,7 @@ Organize sua rotina de musculação de segunda a sexta e consulte seus exercíci
 
 - Organize os treinos de segunda a sexta em semanas independentes.
 - Crie uma semana em branco ou copie a semana selecionada para começar a próxima rotina.
+- Exclua apenas a semana selecionada; as semanas restantes são renumeradas, sem apagar os outros treinos.
 - Reinicie a organização após confirmar; todas as semanas e treinos salvos são apagados e uma Semana 1 vazia é criada para a semana atual.
 - Defina um nome para cada treino e cadastre exercícios com a quantidade de séries, uma carga e repetições opcionais para cada série, além de observações.
 - Adicione atividades de cardio ao treino com duração e, se quiser, distância, intensidade e observações.
@@ -16,7 +17,7 @@ Organize sua rotina de musculação de segunda a sexta e consulte seus exercíci
 
 ## Como usar
 
-Abra `index.html` no navegador ou inicie um servidor local, por exemplo com a extensão Live Server do Visual Studio Code. Escolha um dia da semana para cadastrar o treino e use os controles no topo para criar ou copiar semanas. Use “Recomeçar na Semana 1” para apagar toda a organização salva e iniciar uma semana vazia.
+Abra `index.html` no navegador ou inicie um servidor local, por exemplo com a extensão Live Server do Visual Studio Code. Escolha um dia da semana para cadastrar o treino e use os controles no topo para criar, copiar ou excluir apenas a semana selecionada. Use “Recomeçar na Semana 1” para apagar toda a organização salva e iniciar uma semana vazia.
 
 Os dados são salvos no `localStorage` do navegador e ficam disponíveis no mesmo navegador e perfil de usuário. Não há servidor ou sincronização entre dispositivos. Limpar os dados do site no navegador também remove as semanas salvas.
 

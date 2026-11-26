@@ -19,6 +19,12 @@ const elements = {
     nextWeek: document.querySelector("#next-week"),
     newWeek: document.querySelector("#new-week"),
     copyWeek: document.querySelector("#copy-week"),
+    deleteWeek: document.querySelector("#delete-week"),
+    deleteWeekDialog: document.querySelector("#delete-week-dialog"),
+    deleteWeekForm: document.querySelector("#delete-week-form"),
+    deleteWeekName: document.querySelector("#delete-week-name"),
+    closeDeleteWeekDialog: document.querySelector("#close-delete-week-dialog"),
+    cancelDeleteWeek: document.querySelector("#cancel-delete-week"),
     resetWeeks: document.querySelector("#reset-weeks"),
     resetWeeksDialog: document.querySelector("#reset-weeks-dialog"),
     resetWeeksForm: document.querySelector("#reset-weeks-form"),
@@ -337,6 +343,7 @@ function renderWeekPicker() {
     const selectedIndex = weeks.findIndex((week) => week.id === state.selectedWeekId);
     elements.previousWeek.disabled = selectedIndex <= 0;
     elements.nextWeek.disabled = selectedIndex === -1 || selectedIndex === weeks.length - 1;
+    elements.deleteWeek.disabled = weeks.length === 0;
     elements.resetWeeks.disabled = weeks.length === 0;
 }
 
@@ -602,6 +609,53 @@ function createWeek(copySelected) {
     if (saved) {
         showToast(copySelected ? "Cópia criada. Edite os treinos desta semana quando quiser." : "Semana em branco criada.");
     }
+}
+
+function openDeleteWeekDialog() {
+    const week = getSelectedWeek();
+    if (!week) return;
+    elements.deleteWeekName.textContent = week.title;
+    elements.deleteWeekDialog.showModal();
+}
+
+function deleteSelectedWeek(event) {
+    event.preventDefault();
+    const orderedWeeks = getOrderedWeeks();
+    const selectedIndex = orderedWeeks.findIndex((week) => week.id === state.selectedWeekId);
+    const selectedWeek = orderedWeeks[selectedIndex];
+    if (!selectedWeek) return;
+
+    const remainingWeeks = orderedWeeks.filter((week) => week.id !== selectedWeek.id);
+    const replacementWeek = remainingWeeks.length === 0
+        ? createBlankWeek(selectedWeek.startDate, 1)
+        : null;
+    const nextSelectedWeekId = replacementWeek
+        ? replacementWeek.id
+        : (orderedWeeks[selectedIndex + 1] || orderedWeeks[selectedIndex - 1]).id;
+    const previousWeeks = state.weeks;
+    const previousSelectedWeekId = state.selectedWeekId;
+    const previousSelectedDayId = state.selectedDayId;
+
+    state.weeks = replacementWeek
+        ? [replacementWeek]
+        : remainingWeeks.map((week, index) => ({ ...week, title: `Semana ${index + 1}` }));
+    state.selectedWeekId = nextSelectedWeekId;
+    state.selectedDayId = DAYS[0].id;
+
+    if (!saveState()) {
+        state.weeks = previousWeeks;
+        state.selectedWeekId = previousSelectedWeekId;
+        state.selectedDayId = previousSelectedDayId;
+        elements.deleteWeekDialog.close();
+        render();
+        return;
+    }
+
+    elements.deleteWeekDialog.close();
+    render();
+    showToast(replacementWeek
+        ? "Semana excluída. Uma Semana 1 vazia foi criada."
+        : "Semana excluída. As semanas restantes foram renumeradas.");
 }
 
 function openResetWeeksDialog() {
@@ -895,6 +949,10 @@ elements.previousWeek.addEventListener("click", () => moveWeek(-1));
 elements.nextWeek.addEventListener("click", () => moveWeek(1));
 elements.newWeek.addEventListener("click", () => createWeek(false));
 elements.copyWeek.addEventListener("click", () => createWeek(true));
+elements.deleteWeek.addEventListener("click", openDeleteWeekDialog);
+elements.deleteWeekForm.addEventListener("submit", deleteSelectedWeek);
+elements.closeDeleteWeekDialog.addEventListener("click", () => elements.deleteWeekDialog.close());
+elements.cancelDeleteWeek.addEventListener("click", () => elements.deleteWeekDialog.close());
 elements.resetWeeks.addEventListener("click", openResetWeeksDialog);
 elements.resetWeeksForm.addEventListener("submit", restartFromWeekOne);
 elements.closeResetWeeksDialog.addEventListener("click", () => elements.resetWeeksDialog.close());

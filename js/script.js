@@ -393,20 +393,32 @@ function getProfileInitials(name) {
 
 function renderAvatarPreview(avatar) {
     const hasAvatar = Boolean(avatar);
-    elements.profileAvatarImage.hidden = !hasAvatar;
-    elements.profileAvatarInitials.hidden = hasAvatar;
     elements.removeProfileAvatar.hidden = !hasAvatar;
-    if (hasAvatar) elements.profileAvatarImage.src = avatar;
-    else elements.profileAvatarImage.removeAttribute("src");
-    elements.profileAvatarInitials.textContent = getProfileInitials(elements.profileName.value);
+    if (hasAvatar) {
+        elements.profileAvatarImage.hidden = false;
+        elements.profileAvatarImage.src = avatar;
+        elements.profileAvatarPreview.replaceChildren(elements.profileAvatarImage);
+    } else {
+        elements.profileAvatarImage.hidden = true;
+        elements.profileAvatarImage.removeAttribute("src");
+        elements.profileAvatarInitials.hidden = false;
+        elements.profileAvatarInitials.textContent = getProfileInitials(elements.profileName.value);
+        elements.profileAvatarPreview.replaceChildren(elements.profileAvatarInitials);
+    }
 }
 
 function renderProfileTrigger() {
     const hasAvatar = Boolean(state.profile.avatar);
-    elements.profileTriggerAvatar.hidden = !hasAvatar;
-    elements.profileTriggerIcon.hidden = hasAvatar;
-    if (hasAvatar) elements.profileTriggerAvatar.src = state.profile.avatar;
-    else elements.profileTriggerAvatar.removeAttribute("src");
+    if (hasAvatar) {
+        elements.profileTriggerAvatar.hidden = false;
+        elements.profileTriggerAvatar.src = state.profile.avatar;
+        elements.openProfile.replaceChildren(elements.profileTriggerAvatar);
+    } else {
+        elements.profileTriggerAvatar.hidden = true;
+        elements.profileTriggerAvatar.removeAttribute("src");
+        elements.profileTriggerIcon.hidden = false;
+        elements.openProfile.replaceChildren(elements.profileTriggerIcon);
+    }
     elements.openProfile.setAttribute(
         "aria-label",
         state.profile.name ? `Perfil de ${state.profile.name}` : "Perfil e configurações"

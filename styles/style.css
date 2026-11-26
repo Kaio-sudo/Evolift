@@ -1414,7 +1414,7 @@ svg {
     }
 
     #copy-week,
-    #delete-week {
+    #reset-weeks {
         flex: 1;
         min-height: 34px;
         padding: 0 8px;
@@ -1550,7 +1550,7 @@ svg {
         font-size: 8px;
     }
 
-    #delete-week {
+    #reset-weeks {
         font-size: 8px;
     }
 }

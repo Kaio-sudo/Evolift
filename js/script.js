@@ -19,12 +19,11 @@ const elements = {
     nextWeek: document.querySelector("#next-week"),
     newWeek: document.querySelector("#new-week"),
     copyWeek: document.querySelector("#copy-week"),
-    deleteWeek: document.querySelector("#delete-week"),
-    deleteWeekDialog: document.querySelector("#delete-week-dialog"),
-    deleteWeekForm: document.querySelector("#delete-week-form"),
-    deleteWeekName: document.querySelector("#delete-week-name"),
-    closeDeleteWeekDialog: document.querySelector("#close-delete-week-dialog"),
-    cancelDeleteWeek: document.querySelector("#cancel-delete-week"),
+    resetWeeks: document.querySelector("#reset-weeks"),
+    resetWeeksDialog: document.querySelector("#reset-weeks-dialog"),
+    resetWeeksForm: document.querySelector("#reset-weeks-form"),
+    closeResetWeeksDialog: document.querySelector("#close-reset-weeks-dialog"),
+    cancelResetWeeks: document.querySelector("#cancel-reset-weeks"),
     dayList: document.querySelector("#day-list"),
     selectedDayLabel: document.querySelector("#selected-day-label"),
     selectedDayName: document.querySelector("#selected-day-name"),
@@ -338,7 +337,7 @@ function renderWeekPicker() {
     const selectedIndex = weeks.findIndex((week) => week.id === state.selectedWeekId);
     elements.previousWeek.disabled = selectedIndex <= 0;
     elements.nextWeek.disabled = selectedIndex === -1 || selectedIndex === weeks.length - 1;
-    elements.deleteWeek.disabled = weeks.length === 0;
+    elements.resetWeeks.disabled = weeks.length === 0;
 }
 
 function renderDayList() {
@@ -605,52 +604,33 @@ function createWeek(copySelected) {
     }
 }
 
-function openDeleteWeekDialog() {
-    if (state.weeks.length === 0) return;
-    elements.deleteWeekName.textContent = getSelectedWeek().title;
-    elements.deleteWeekDialog.showModal();
+function openResetWeeksDialog() {
+    elements.resetWeeksDialog.showModal();
 }
 
-function deleteSelectedWeek(event) {
+function restartFromWeekOne(event) {
     event.preventDefault();
-    const orderedWeeks = getOrderedWeeks();
-    if (orderedWeeks.length === 0) return;
-
-    const selectedIndex = orderedWeeks.findIndex((week) => week.id === state.selectedWeekId);
-    const selectedWeek = orderedWeeks[selectedIndex];
-    if (!selectedWeek) return;
-
-    const remainingWeeks = orderedWeeks.filter((week) => week.id !== selectedWeek.id);
-    const replacementWeek = remainingWeeks.length === 0
-        ? createBlankWeek(selectedWeek.startDate, 1)
-        : null;
-    const nextSelectedWeekId = replacementWeek
-        ? replacementWeek.id
-        : (orderedWeeks[selectedIndex + 1] || orderedWeeks[selectedIndex - 1]).id;
+    const firstWeek = createBlankWeek(getMondayISO(new Date()), 1);
     const previousWeeks = state.weeks;
     const previousSelectedWeekId = state.selectedWeekId;
     const previousSelectedDayId = state.selectedDayId;
 
-    state.weeks = replacementWeek
-        ? [replacementWeek]
-        : remainingWeeks.map((week, index) => ({ ...week, title: `Semana ${index + 1}` }));
-    state.selectedWeekId = nextSelectedWeekId;
+    state.weeks = [firstWeek];
+    state.selectedWeekId = firstWeek.id;
     state.selectedDayId = DAYS[0].id;
 
     if (!saveState()) {
         state.weeks = previousWeeks;
         state.selectedWeekId = previousSelectedWeekId;
         state.selectedDayId = previousSelectedDayId;
-        elements.deleteWeekDialog.close();
+        elements.resetWeeksDialog.close();
         render();
         return;
     }
 
-    elements.deleteWeekDialog.close();
+    elements.resetWeeksDialog.close();
     render();
-    showToast(replacementWeek
-        ? "Semana excluída. Uma nova semana em branco foi criada."
-        : "Semana excluída.");
+    showToast("Organização reiniciada na Semana 1.");
 }
 
 function setActivityType(type) {
@@ -915,10 +895,10 @@ elements.previousWeek.addEventListener("click", () => moveWeek(-1));
 elements.nextWeek.addEventListener("click", () => moveWeek(1));
 elements.newWeek.addEventListener("click", () => createWeek(false));
 elements.copyWeek.addEventListener("click", () => createWeek(true));
-elements.deleteWeek.addEventListener("click", openDeleteWeekDialog);
-elements.deleteWeekForm.addEventListener("submit", deleteSelectedWeek);
-elements.closeDeleteWeekDialog.addEventListener("click", () => elements.deleteWeekDialog.close());
-elements.cancelDeleteWeek.addEventListener("click", () => elements.deleteWeekDialog.close());
+elements.resetWeeks.addEventListener("click", openResetWeeksDialog);
+elements.resetWeeksForm.addEventListener("submit", restartFromWeekOne);
+elements.closeResetWeeksDialog.addEventListener("click", () => elements.resetWeeksDialog.close());
+elements.cancelResetWeeks.addEventListener("click", () => elements.resetWeeksDialog.close());
 
 elements.dayList.addEventListener("click", (event) => {
     const button = event.target.closest("button[data-day-id]");

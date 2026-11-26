@@ -60,8 +60,8 @@
                         <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="9" height="10" rx="1.5" /><path d="M13 7V5.5A1.5 1.5 0 0 0 11.5 4h-6A1.5 1.5 0 0 0 4 5.5v7A1.5 1.5 0 0 0 5.5 14H7" /></svg>
                         <span>Copiar semana</span>
                     </button>
-                    <button class="button button-danger-quiet" id="delete-week" type="button">
-                        Excluir semana
+                    <button class="button button-danger-quiet" id="reset-weeks" type="button">
+                        Recomeçar na Semana 1
                     </button>
                 </div>
             </section>
@@ -219,21 +219,21 @@
         </form>
     </dialog>
 
-    <dialog class="dialog" id="delete-week-dialog" aria-labelledby="delete-week-dialog-title">
-        <form class="exercise-form" id="delete-week-form">
+    <dialog class="dialog" id="reset-weeks-dialog" aria-labelledby="reset-weeks-dialog-title">
+        <form class="exercise-form" id="reset-weeks-form">
             <div class="dialog-heading">
                 <div>
-                    <p class="eyebrow">EXCLUIR PLANEJAMENTO</p>
-                    <h2 id="delete-week-dialog-title">Excluir esta semana?</h2>
+                    <p class="eyebrow">REINICIAR ORGANIZAÇÃO</p>
+                    <h2 id="reset-weeks-dialog-title">Recomeçar do zero?</h2>
                 </div>
-                <button class="icon-button dialog-close" id="close-delete-week-dialog" type="button" aria-label="Fechar">
+                <button class="icon-button dialog-close" id="close-reset-weeks-dialog" type="button" aria-label="Fechar">
                     <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg>
                 </button>
             </div>
-            <p class="rest-dialog-copy">A semana <strong id="delete-week-name"></strong> e todos os treinos e exercícios dela serão removidos. Se for sua única semana, outra vazia será criada para você continuar. Esta ação não pode ser desfeita.</p>
+            <p class="rest-dialog-copy">Todas as semanas e todos os treinos e exercícios salvos serão apagados. Uma Semana 1 vazia será criada para a semana atual. Esta ação não pode ser desfeita.</p>
             <div class="dialog-actions">
-                <button class="button button-quiet" id="cancel-delete-week" type="button">Cancelar</button>
-                <button class="button button-danger-quiet" type="submit">Excluir semana</button>
+                <button class="button button-quiet" id="cancel-reset-weeks" type="button">Cancelar</button>
+                <button class="button button-danger-quiet" type="submit">Apagar tudo e recomeçar</button>
             </div>
         </form>
     </dialog>

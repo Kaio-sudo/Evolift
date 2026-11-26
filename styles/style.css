@@ -527,30 +527,41 @@ svg {
 }
 
 .button-danger-quiet {
-    min-height: 30px;
-    padding: 0 8px;
-    color: #b58c7f;
-    font-size: 9px;
+    min-height: 34px;
+    padding: 0 11px;
+    border-color: #70463d;
+    background: #352723;
+    color: #eab0a1;
+    font-size: 10px;
+    font-weight: 650;
 }
 
 .button-danger-quiet:hover {
-    border-color: #63443c;
-    background: #302522;
-    color: var(--danger);
+    border-color: #a36556;
+    background: #49302a;
+    color: #ffd0c3;
 }
 
 .button-rest-quiet {
-    min-height: 30px;
-    padding: 0 9px;
-    border-color: #57483b;
-    color: #d0a17e;
-    font-size: 9px;
+    min-height: 34px;
+    padding: 0 11px;
+    border-color: #796044;
+    background: #332e24;
+    color: #edbd8e;
+    font-size: 10px;
+    font-weight: 650;
 }
 
 .button-rest-quiet:hover {
-    border-color: #80634a;
-    background: #302921;
-    color: #e6b38d;
+    border-color: #a48256;
+    background: #44392a;
+    color: #ffdbad;
+}
+
+.button-danger-quiet:focus-visible,
+.button-rest-quiet:focus-visible {
+    outline: 2px solid #d5a77e;
+    outline-offset: 2px;
 }
 
 .rest-state {
@@ -1452,9 +1463,9 @@ svg {
     }
 
     .workout-heading-actions .button {
-        min-height: 27px;
-        padding: 0 7px;
-        font-size: 8px;
+        min-height: 33px;
+        padding: 0 9px;
+        font-size: 9px;
     }
 
     .workout-heading h2 {

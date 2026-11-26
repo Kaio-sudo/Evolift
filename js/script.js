@@ -620,17 +620,21 @@ function deleteSelectedWeek(event) {
     const selectedWeek = orderedWeeks[selectedIndex];
     if (!selectedWeek) return;
 
-    const fallbackWeek = orderedWeeks[selectedIndex + 1] || orderedWeeks[selectedIndex - 1];
-    const replacementWeek = orderedWeeks.length === 1
-        ? createBlankWeek(selectedWeek.startDate, getNextWeekNumber())
+    const remainingWeeks = orderedWeeks.filter((week) => week.id !== selectedWeek.id);
+    const replacementWeek = remainingWeeks.length === 0
+        ? createBlankWeek(selectedWeek.startDate, 1)
         : null;
+    const nextSelectedWeekId = replacementWeek
+        ? replacementWeek.id
+        : (orderedWeeks[selectedIndex + 1] || orderedWeeks[selectedIndex - 1]).id;
     const previousWeeks = state.weeks;
     const previousSelectedWeekId = state.selectedWeekId;
     const previousSelectedDayId = state.selectedDayId;
 
-    state.weeks = state.weeks.filter((week) => week.id !== selectedWeek.id);
-    if (replacementWeek) state.weeks.push(replacementWeek);
-    state.selectedWeekId = replacementWeek ? replacementWeek.id : fallbackWeek.id;
+    state.weeks = replacementWeek
+        ? [replacementWeek]
+        : remainingWeeks.map((week, index) => ({ ...week, title: `Semana ${index + 1}` }));
+    state.selectedWeekId = nextSelectedWeekId;
     state.selectedDayId = DAYS[0].id;
 
     if (!saveState()) {

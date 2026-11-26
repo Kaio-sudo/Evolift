@@ -6,7 +6,7 @@ Organize sua rotina de musculação de segunda a sexta e consulte seus exercíci
 
 - Organize os treinos de segunda a sexta em semanas independentes.
 - Crie uma semana em branco ou copie a semana selecionada para começar a próxima rotina.
-- Exclua a semana selecionada após confirmar; ao excluir a última, uma semana vazia é criada para manter o organizador pronto para uso.
+- Exclua a semana selecionada após confirmar; as semanas restantes são renumeradas em ordem, e uma semana vazia é criada ao excluir a última.
 - Defina um nome para cada treino e cadastre exercícios com a quantidade de séries, uma carga e repetições opcionais para cada série, além de observações.
 - Adicione atividades de cardio ao treino com duração e, se quiser, distância, intensidade e observações.
 - Marque um dia como descanso com justificativa obrigatória e retome o treino sem perder o planejamento salvo.

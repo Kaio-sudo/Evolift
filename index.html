@@ -9,6 +9,9 @@
     <title>Treinos da semana — Evolift</title>
     <link rel="icon" href="icons/evolift.ico" type="image/x-icon">
     <link rel="stylesheet" href="styles/style.css">
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#121212">
+    <link rel="apple-touch-icon" href="./assets/logo-evolift-transparente.png">
 </head>
 
 <body>
@@ -24,12 +27,18 @@
             <div class="header-actions">
                 <span class="save-indicator"><span class="save-dot"></span>Salvo neste dispositivo</span>
                 <button class="button button-primary button-new-week" id="new-week" type="button">
-                    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" /></svg>
+                    <svg viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="M10 4v12M4 10h12" />
+                    </svg>
                     <span>Nova semana</span>
                 </button>
-                <button class="icon-button profile-trigger" id="open-profile" type="button" aria-label="Perfil e configurações" title="Perfil e configurações">
+                <button class="icon-button profile-trigger" id="open-profile" type="button"
+                    aria-label="Perfil e configurações" title="Perfil e configurações">
                     <img id="profile-trigger-avatar" alt="" hidden>
-                    <svg id="profile-trigger-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="6.5" r="3" /><path d="M4.5 17v-1.5a5.5 5.5 0 0 1 11 0V17Z" /></svg>
+                    <svg id="profile-trigger-icon" viewBox="0 0 20 20" aria-hidden="true">
+                        <circle cx="10" cy="6.5" r="3" />
+                        <path d="M4.5 17v-1.5a5.5 5.5 0 0 1 11 0V17Z" />
+                    </svg>
                 </button>
             </div>
         </header>
@@ -49,19 +58,29 @@
                 <div class="week-controls">
                     <div class="week-picker">
                         <button class="icon-button" id="previous-week" type="button" aria-label="Semana anterior">
-                            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12 4-6 6 6 6" /></svg>
+                            <svg viewBox="0 0 20 20" aria-hidden="true">
+                                <path d="m12 4-6 6 6 6" />
+                            </svg>
                         </button>
                         <label class="select-wrap">
                             <span class="visually-hidden">Semana selecionada</span>
                             <select id="week-select" aria-label="Semana selecionada"></select>
-                            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg>
+                            <svg viewBox="0 0 16 16" aria-hidden="true">
+                                <path d="m4 6 4 4 4-4" />
+                            </svg>
                         </label>
                         <button class="icon-button" id="next-week" type="button" aria-label="Próxima semana">
-                            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m8 4 6 6-6 6" /></svg>
+                            <svg viewBox="0 0 20 20" aria-hidden="true">
+                                <path d="m8 4 6 6-6 6" />
+                            </svg>
                         </button>
                     </div>
-                    <button class="button button-quiet" id="copy-week" type="button" title="Criar uma cópia desta semana">
-                        <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="9" height="10" rx="1.5" /><path d="M13 7V5.5A1.5 1.5 0 0 0 11.5 4h-6A1.5 1.5 0 0 0 4 5.5v7A1.5 1.5 0 0 0 5.5 14H7" /></svg>
+                    <button class="button button-quiet" id="copy-week" type="button"
+                        title="Criar uma cópia desta semana">
+                        <svg viewBox="0 0 20 20" aria-hidden="true">
+                            <rect x="7" y="7" width="9" height="10" rx="1.5" />
+                            <path d="M13 7V5.5A1.5 1.5 0 0 0 11.5 4h-6A1.5 1.5 0 0 0 4 5.5v7A1.5 1.5 0 0 0 5.5 14H7" />
+                        </svg>
                         <span>Copiar semana</span>
                     </button>
                     <button class="button button-danger-quiet" id="delete-week" type="button">
@@ -79,7 +98,8 @@
                 <div class="weekly-progress-intro">
                     <p class="eyebrow">RITMO DA SEMANA</p>
                     <h2 id="weekly-progress-title">Progresso semanal</h2>
-                    <p class="weekly-progress-summary" id="weekly-progress-summary">0 dias com treino · 0 dias de descanso</p>
+                    <p class="weekly-progress-summary" id="weekly-progress-summary">0 dias com treino · 0 dias de
+                        descanso</p>
                 </div>
                 <div class="weekly-progress-meter">
                     <div class="weekly-progress-value">
@@ -107,8 +127,10 @@
                             <h2 id="selected-day-name">Seu treino</h2>
                         </div>
                         <div class="workout-heading-actions">
-                            <button class="button button-rest-quiet" id="rest-button" type="button">Marcar descanso</button>
-                            <button class="button button-danger-quiet" id="clear-workout" type="button" hidden>Limpar treino</button>
+                            <button class="button button-rest-quiet" id="rest-button" type="button">Marcar
+                                descanso</button>
+                            <button class="button button-danger-quiet" id="clear-workout" type="button" hidden>Limpar
+                                treino</button>
                         </div>
                     </div>
 
@@ -123,7 +145,9 @@
 
                         <div class="empty-state" id="empty-state">
                             <span class="empty-mark" aria-hidden="true">
-                                <svg viewBox="0 0 32 32"><path d="M16 7v18M7 16h18" /></svg>
+                                <svg viewBox="0 0 32 32">
+                                    <path d="M16 7v18M7 16h18" />
+                                </svg>
                             </span>
                             <p class="empty-title">Ainda sem atividades</p>
                             <p class="empty-copy">Adicione um exercício ou cardio para este dia.</p>
@@ -138,19 +162,25 @@
                             <span class="add-symbol" aria-hidden="true">+</span>
                             Adicionar exercício
                         </button>
-                        <p class="storage-note"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" /><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" /></svg>As alterações são salvas automaticamente neste navegador.</p>
+                        <p class="storage-note"><svg viewBox="0 0 16 16" aria-hidden="true">
+                                <rect x="3" y="7" width="10" height="7" rx="1.5" />
+                                <path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" />
+                            </svg>As alterações são salvas automaticamente neste navegador.</p>
                     </div>
 
                     <div class="rest-state" id="rest-state" hidden>
                         <span class="rest-state-mark" aria-hidden="true">
-                            <svg viewBox="0 0 24 24"><path d="M19.2 14.1A8.3 8.3 0 0 1 9.9 4.8 8.5 8.5 0 1 0 19.2 14Z" /></svg>
+                            <svg viewBox="0 0 24 24">
+                                <path d="M19.2 14.1A8.3 8.3 0 0 1 9.9 4.8 8.5 8.5 0 1 0 19.2 14Z" />
+                            </svg>
                         </span>
                         <p class="eyebrow">DESCANSO REGISTRADO</p>
                         <h3>Hoje é dia de recuperar.</h3>
                         <p class="rest-reason-label">Sua justificativa</p>
                         <blockquote class="rest-reason" id="rest-reason"></blockquote>
                         <p class="rest-planned-workout" id="rest-planned-workout" hidden></p>
-                        <button class="button button-quiet resume-button" id="resume-workout" type="button">Retomar treino</button>
+                        <button class="button button-quiet resume-button" id="resume-workout" type="button">Retomar
+                            treino</button>
                     </div>
                 </section>
             </section>
@@ -172,7 +202,9 @@
                     <h2 id="profile-dialog-title">Perfil e configurações</h2>
                 </div>
                 <button class="icon-button dialog-close" id="close-profile-dialog" type="button" aria-label="Fechar">
-                    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg>
+                    <svg viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="m5 5 10 10M15 5 5 15" />
+                    </svg>
                 </button>
             </div>
             <p class="profile-feedback" id="profile-feedback" role="alert" hidden></p>
@@ -192,18 +224,21 @@
                             Escolher foto
                             <input class="visually-hidden" id="profile-avatar-input" type="file" accept="image/*">
                         </label>
-                        <button class="button button-quiet profile-remove-photo" id="remove-profile-avatar" type="button" hidden>Remover foto</button>
+                        <button class="button button-quiet profile-remove-photo" id="remove-profile-avatar"
+                            type="button" hidden>Remover foto</button>
                         <small>Imagem do dispositivo. Até 20 MB.</small>
                     </div>
                 </div>
                 <div class="profile-field-grid">
                     <label class="form-field">
                         <span>Nome ou apelido <small>opcional</small></span>
-                        <input id="profile-name" type="text" maxlength="60" autocomplete="nickname" placeholder="Como quer ser chamado?">
+                        <input id="profile-name" type="text" maxlength="60" autocomplete="nickname"
+                            placeholder="Como quer ser chamado?">
                     </label>
                     <label class="form-field">
                         <span>E-mail <small>opcional</small></span>
-                        <input id="profile-email" type="email" maxlength="254" autocomplete="email" placeholder="voce@exemplo.com">
+                        <input id="profile-email" type="email" maxlength="254" autocomplete="email"
+                            placeholder="voce@exemplo.com">
                     </label>
                 </div>
             </section>
@@ -238,14 +273,16 @@
                         </select>
                     </label>
                 </div>
-                <div class="settings-note" role="note">Ao trocar a unidade, as cargas já registradas também serão convertidas.</div>
+                <div class="settings-note" role="note">Ao trocar a unidade, as cargas já registradas também serão
+                    convertidas.</div>
             </section>
 
             <section class="profile-section" aria-labelledby="notifications-section-title">
                 <div class="profile-section-heading">
                     <h3 id="notifications-section-title">Notificações</h3>
                 </div>
-                <p class="settings-note" role="note">Lembretes não estão disponíveis nesta versão, que não possui agendamento em segundo plano.</p>
+                <p class="settings-note" role="note">Lembretes não estão disponíveis nesta versão, que não possui
+                    agendamento em segundo plano.</p>
             </section>
 
             <section class="profile-section" aria-labelledby="data-section-title">
@@ -254,8 +291,10 @@
                 </div>
                 <div class="data-actions">
                     <button class="button button-quiet" id="export-data" type="button">Exportar dados</button>
-                    <button class="button button-quiet" id="restore-settings" type="button">Restaurar configurações padrão</button>
-                    <button class="button button-danger-quiet" id="clear-data" type="button">Limpar dados armazenados</button>
+                    <button class="button button-quiet" id="restore-settings" type="button">Restaurar configurações
+                        padrão</button>
+                    <button class="button button-danger-quiet" id="clear-data" type="button">Limpar dados
+                        armazenados</button>
                 </div>
                 <p class="settings-note" role="note">Seus dados ficam apenas neste navegador e neste dispositivo.</p>
             </section>
@@ -275,10 +314,13 @@
                     <h2 id="restore-settings-title">Restaurar padrões?</h2>
                 </div>
                 <button class="icon-button dialog-close" id="close-restore-settings" type="button" aria-label="Fechar">
-                    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg>
+                    <svg viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="m5 5 10 10M15 5 5 15" />
+                    </svg>
                 </button>
             </div>
-            <p class="rest-dialog-copy">A aparência voltará ao tema escuro, a meta será de 5 dias e a unidade será kg. Seus treinos e dados de perfil serão mantidos.</p>
+            <p class="rest-dialog-copy">A aparência voltará ao tema escuro, a meta será de 5 dias e a unidade será kg.
+                Seus treinos e dados de perfil serão mantidos.</p>
             <div class="dialog-actions">
                 <button class="button button-quiet" id="cancel-restore-settings" type="button">Cancelar</button>
                 <button class="button button-primary" type="submit">Restaurar padrões</button>
@@ -294,10 +336,13 @@
                     <h2 id="clear-data-title">Limpar todos os dados?</h2>
                 </div>
                 <button class="icon-button dialog-close" id="close-clear-data" type="button" aria-label="Fechar">
-                    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg>
+                    <svg viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="m5 5 10 10M15 5 5 15" />
+                    </svg>
                 </button>
             </div>
-            <p class="rest-dialog-copy">Todas as semanas, treinos, perfil e preferências salvos neste navegador serão apagados. O Evolift será reiniciado com uma Semana 1 vazia. Esta ação não pode ser desfeita.</p>
+            <p class="rest-dialog-copy">Todas as semanas, treinos, perfil e preferências salvos neste navegador serão
+                apagados. O Evolift será reiniciado com uma Semana 1 vazia. Esta ação não pode ser desfeita.</p>
             <div class="dialog-actions">
                 <button class="button button-quiet" id="cancel-clear-data" type="button">Cancelar</button>
                 <button class="button button-danger-quiet" type="submit">Limpar tudo</button>
@@ -313,16 +358,21 @@
                     <h2 id="dialog-title">Adicionar atividade</h2>
                 </div>
                 <button class="icon-button dialog-close" id="close-dialog" type="button" aria-label="Fechar">
-                    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg>
+                    <svg viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="m5 5 10 10M15 5 5 15" />
+                    </svg>
                 </button>
             </div>
             <div class="activity-type-picker" id="activity-type-picker" role="group" aria-label="Tipo de atividade">
-                <button class="activity-type-button is-active" type="button" data-activity-type="exercise" aria-pressed="true">Exercício</button>
-                <button class="activity-type-button" type="button" data-activity-type="cardio" aria-pressed="false">Cardio</button>
+                <button class="activity-type-button is-active" type="button" data-activity-type="exercise"
+                    aria-pressed="true">Exercício</button>
+                <button class="activity-type-button" type="button" data-activity-type="cardio"
+                    aria-pressed="false">Cardio</button>
             </div>
             <label class="form-field form-field-full">
                 <span><span id="activity-name-label">Nome do exercício</span> <b>*</b></span>
-                <input id="exercise-name" name="name" type="text" maxlength="80" placeholder="Ex.: Supino inclinado com halteres" required>
+                <input id="exercise-name" name="name" type="text" maxlength="80"
+                    placeholder="Ex.: Supino inclinado com halteres" required>
             </label>
             <div class="activity-fields" id="exercise-fields">
                 <label class="form-field form-field-full">
@@ -339,21 +389,25 @@
                 <div class="form-row">
                     <label class="form-field">
                         <span>Duração (min) <b>*</b></span>
-                        <input id="cardio-duration" name="duration" type="number" min="1" max="1440" placeholder="Ex.: 30" required disabled>
+                        <input id="cardio-duration" name="duration" type="number" min="1" max="1440"
+                            placeholder="Ex.: 30" required disabled>
                     </label>
                     <label class="form-field">
                         <span>Distância (km) <small>opcional</small></span>
-                        <input id="cardio-distance" name="distance" type="number" min="0" step="0.1" placeholder="Ex.: 5" disabled>
+                        <input id="cardio-distance" name="distance" type="number" min="0" step="0.1"
+                            placeholder="Ex.: 5" disabled>
                     </label>
                 </div>
                 <label class="form-field form-field-full">
                     <span>Intensidade <small>opcional</small></span>
-                    <input id="cardio-intensity" name="intensity" type="text" maxlength="40" placeholder="Ex.: Leve, moderada ou intensa" disabled>
+                    <input id="cardio-intensity" name="intensity" type="text" maxlength="40"
+                        placeholder="Ex.: Leve, moderada ou intensa" disabled>
                 </label>
             </div>
             <label class="form-field form-field-full">
                 <span>Observações <small>opcional</small></span>
-                <textarea id="exercise-notes" name="notes" rows="2" maxlength="180" placeholder="Ex.: manter o movimento controlado"></textarea>
+                <textarea id="exercise-notes" name="notes" rows="2" maxlength="180"
+                    placeholder="Ex.: manter o movimento controlado"></textarea>
             </label>
             <div class="dialog-actions">
                 <button class="button button-quiet" id="cancel-dialog" type="button">Cancelar</button>
@@ -370,13 +424,16 @@
                     <h2 id="rest-dialog-title">Registrar descanso</h2>
                 </div>
                 <button class="icon-button dialog-close" id="close-rest-dialog" type="button" aria-label="Fechar">
-                    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg>
+                    <svg viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="m5 5 10 10M15 5 5 15" />
+                    </svg>
                 </button>
             </div>
             <p class="rest-dialog-copy">Por que você precisou descansar? A justificativa fica salva junto deste dia.</p>
             <label class="form-field form-field-full" for="rest-reason-input">
                 <span>Justificativa <b>*</b></span>
-                <textarea id="rest-reason-input" name="reason" rows="3" maxlength="240" placeholder="Escreva o motivo do descanso..." required></textarea>
+                <textarea id="rest-reason-input" name="reason" rows="3" maxlength="240"
+                    placeholder="Escreva o motivo do descanso..." required></textarea>
             </label>
             <div class="dialog-actions">
                 <button class="button button-quiet" id="cancel-rest-dialog" type="button">Cancelar</button>
@@ -392,11 +449,16 @@
                     <p class="eyebrow">EXCLUIR SEMANA</p>
                     <h2 id="delete-week-dialog-title">Excluir esta semana?</h2>
                 </div>
-                <button class="icon-button dialog-close" id="close-delete-week-dialog" type="button" aria-label="Fechar">
-                    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg>
+                <button class="icon-button dialog-close" id="close-delete-week-dialog" type="button"
+                    aria-label="Fechar">
+                    <svg viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="m5 5 10 10M15 5 5 15" />
+                    </svg>
                 </button>
             </div>
-            <p class="rest-dialog-copy">A semana <strong id="delete-week-name"></strong> e os treinos e exercícios dela serão removidos. As semanas restantes serão renumeradas. Se for a única semana, uma Semana 1 vazia será criada. Esta ação não pode ser desfeita.</p>
+            <p class="rest-dialog-copy">A semana <strong id="delete-week-name"></strong> e os treinos e exercícios dela
+                serão removidos. As semanas restantes serão renumeradas. Se for a única semana, uma Semana 1 vazia será
+                criada. Esta ação não pode ser desfeita.</p>
             <div class="dialog-actions">
                 <button class="button button-quiet" id="cancel-delete-week" type="button">Cancelar</button>
                 <button class="button button-danger-quiet" type="submit">Excluir semana</button>
@@ -411,11 +473,15 @@
                     <p class="eyebrow">REINICIAR ORGANIZAÇÃO</p>
                     <h2 id="reset-weeks-dialog-title">Recomeçar do zero?</h2>
                 </div>
-                <button class="icon-button dialog-close" id="close-reset-weeks-dialog" type="button" aria-label="Fechar">
-                    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg>
+                <button class="icon-button dialog-close" id="close-reset-weeks-dialog" type="button"
+                    aria-label="Fechar">
+                    <svg viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="m5 5 10 10M15 5 5 15" />
+                    </svg>
                 </button>
             </div>
-            <p class="rest-dialog-copy">Todas as semanas e todos os treinos e exercícios salvos serão apagados. Uma Semana 1 vazia será criada para a semana atual. Esta ação não pode ser desfeita.</p>
+            <p class="rest-dialog-copy">Todas as semanas e todos os treinos e exercícios salvos serão apagados. Uma
+                Semana 1 vazia será criada para a semana atual. Esta ação não pode ser desfeita.</p>
             <div class="dialog-actions">
                 <button class="button button-quiet" id="cancel-reset-weeks" type="button">Cancelar</button>
                 <button class="button button-danger-quiet" type="submit">Apagar tudo e recomeçar</button>
@@ -424,6 +490,17 @@
     </dialog>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register("./service-worker.js")
+                    .then(() => console.log("Evolift: Service Worker registrado!"))
+                    .catch((error) => console.error("Erro no Service Worker:", error));
+            });
+        }
+    </script>
+
     <script src="js/script.js"></script>
 </body>
 

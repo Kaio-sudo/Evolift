@@ -16,7 +16,8 @@ const MIME_TYPES = {
     ".js": "text/javascript; charset=utf-8",
     ".png": "image/png",
     ".svg": "image/svg+xml",
-    ".webp": "image/webp"
+    ".webp": "image/webp",
+    ".json": "application/json; charset=utf-8"
 };
 
 function resolvePublicFile(requestUrl) {
@@ -31,7 +32,10 @@ function resolvePublicFile(requestUrl) {
     const filePath = path.resolve(ROOT, requestedPath);
     const relativePath = path.relative(ROOT, filePath);
     const parts = relativePath.split(path.sep);
-    const allowedPath = relativePath === "index.html" ||
+    const allowedPath =
+        relativePath === "index.html" ||
+        relativePath === "manifest.json" ||
+        relativePath === "service-worker.js" ||
         (parts.length > 1 && PUBLIC_DIRECTORIES.has(parts[0]));
 
     if (

@@ -20,6 +20,9 @@ const elements = {
     weekRange: document.querySelector("#week-range"),
     previousWeek: document.querySelector("#previous-week"),
     nextWeek: document.querySelector("#next-week"),
+    weeklyProgressSummary: document.querySelector("#weekly-progress-summary"),
+    weeklyProgressCount: document.querySelector("#weekly-progress-count"),
+    weeklyProgressBar: document.querySelector("#weekly-progress-bar"),
     newWeek: document.querySelector("#new-week"),
     copyWeek: document.querySelector("#copy-week"),
     deleteWeek: document.querySelector("#delete-week"),
@@ -629,13 +632,38 @@ function renderDayList() {
             : day.name.trim() || (day.exercises.length ? `${day.exercises.length} atividades` : "Sem treino definido");
         copy.append(name, summary);
 
+        const meta = document.createElement("span");
+        meta.className = "day-meta";
+        const count = document.createElement("span");
+        count.className = "day-count";
+        count.textContent = String(day.exercises.length);
+        count.setAttribute("aria-label", `${day.exercises.length} ${day.exercises.length === 1 ? "exercício" : "exercícios"}`);
         const status = document.createElement("span");
         status.className = "day-status";
         status.setAttribute("aria-hidden", "true");
-        button.append(initial, copy, status);
+        meta.append(count, status);
+        button.append(initial, copy, meta);
         return button;
     });
     elements.dayList.replaceChildren(...dayButtons);
+    renderWeeklyProgress(week);
+}
+
+function renderWeeklyProgress(week) {
+    const restDays = week.days.filter(hasRest).length;
+    const workoutDays = week.days.filter((day) => hasWorkout(day) && !hasRest(day)).length;
+    const plannedDays = week.days.filter((day) => hasWorkout(day) || hasRest(day)).length;
+
+    elements.weeklyProgressCount.textContent = `${plannedDays}/${DAYS.length}`;
+    elements.weeklyProgressSummary.textContent =
+        `${workoutDays} ${workoutDays === 1 ? "dia com treino" : "dias com treino"} · ` +
+        `${restDays} ${restDays === 1 ? "dia de descanso" : "dias de descanso"}`;
+    elements.weeklyProgressBar.setAttribute("aria-valuenow", String(plannedDays));
+    elements.weeklyProgressBar.setAttribute(
+        "aria-valuetext",
+        `${plannedDays} de ${DAYS.length} dias planejados; ${workoutDays} com treino e ${restDays} de descanso`
+    );
+    elements.weeklyProgressBar.firstElementChild.style.width = `${(plannedDays / DAYS.length) * 100}%`;
 }
 
 function createExerciseDetail(text) {

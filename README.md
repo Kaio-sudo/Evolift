@@ -1,51 +1,100 @@
 # Evolift
 
-Organize sua rotina de musculação de segunda a sexta e consulte seus exercícios durante o treino.
+Organize sua rotina de treinos de segunda a sexta, acompanhe o planejamento semanal e consulte seus exercícios durante o treino. O Evolift é um aplicativo web responsivo e instalável (PWA), com tema escuro por padrão e dados armazenados localmente no navegador.
 
-## Funcionalidades
+## Recursos
 
-- Organize os treinos de segunda a sexta em semanas independentes.
-- Crie uma semana em branco ou copie a semana selecionada para começar a próxima rotina.
-- Exclua apenas a semana selecionada; as semanas restantes são renumeradas, sem apagar os outros treinos.
-- Reinicie a organização após confirmar; todas as semanas e treinos salvos são apagados e uma Semana 1 vazia é criada para a semana atual.
-- Defina um nome para cada treino e cadastre exercícios com a quantidade de séries, uma carga e repetições opcionais para cada série, além de observações.
-- Adicione atividades de cardio ao treino com duração e, se quiser, distância, intensidade e observações.
-- Marque um dia como descanso com justificativa obrigatória e retome o treino sem perder o planejamento salvo.
-- Edite, exclua e reorganize os exercícios de cada dia.
-- Navegue pelas semanas anteriores e mantenha seus registros salvos automaticamente no navegador.
-- Acesse perfil e configurações para salvar nome, e-mail opcional e foto, escolher tema, meta semanal e unidade de peso.
-- Converta as cargas registradas ao trocar entre kg e lb, exporte seus dados em JSON, restaure preferências padrão ou limpe os dados com confirmação.
-- Lembretes por notificação não estão disponíveis nesta versão, que não possui agendamento em segundo plano.
-- Use a interface responsiva em computadores e celulares, com tema escuro por padrão.
+### Planejamento semanal
 
-## Como usar
+- Organize treinos de segunda a sexta em semanas independentes.
+- Consulte a faixa de datas, navegue entre semanas e crie uma semana em branco ou uma cópia da semana selecionada.
+- Exclua uma semana específica; as semanas restantes são renumeradas. Se a última semana for excluída, uma Semana 1 vazia é criada.
+- Use “Recomeçar na Semana 1” para apagar a organização de treinos e iniciar uma semana vazia para a semana atual.
+- Acompanhe o progresso de segunda a sexta: a barra considera como planejado cada dia com treino ou descanso registrado. O resumo diferencia dias com treino de dias de descanso.
 
-Abra `index.html` no navegador ou inicie o servidor local com `node .\serve.js`. Escolha um dia da semana para cadastrar o treino e use os controles no topo para criar, copiar ou excluir apenas a semana selecionada. Use “Recomeçar na Semana 1” para apagar toda a organização salva e iniciar uma semana vazia.
+### Treinos e atividades
 
-Os dados são salvos no `localStorage` do navegador e ficam disponíveis no mesmo navegador e perfil de usuário. Não há servidor ou sincronização entre dispositivos. Limpar os dados do site no navegador também remove as semanas salvas.
+- Dê um nome ao treino de cada dia.
+- Cadastre, edite, exclua e reorganize exercícios.
+- Informe séries, carga e repetições individualmente para cada série, além de observações opcionais.
+- Registre atividades de cardio com duração e, opcionalmente, distância, intensidade e observações.
+- Marque um dia como descanso com justificativa obrigatória. O treino existente permanece salvo e pode ser retomado depois.
 
-## Acessar pelo celular
+### Perfil, preferências e dados
+
+- Salve nome, e-mail e foto de perfil opcionais neste dispositivo.
+- Escolha o tema escuro ou claro, configure a meta semanal de 1 a 7 dias e selecione kg ou lb.
+- Ao trocar a unidade de peso, as cargas numéricas salvas são convertidas.
+- Exporte um arquivo JSON com os dados do Evolift, incluindo semanas, treinos, perfil e preferências.
+- Restaure as preferências padrão sem apagar os treinos ou limpe os dados armazenados após confirmação.
+
+As alterações são salvas automaticamente no navegador. Não há conta, servidor de dados ou sincronização entre dispositivos. A meta configurável é uma preferência; a barra de progresso da tela principal mostra os dias planejados entre os cinco dias úteis.
+
+## Instalar e usar no celular (PWA)
+
+O Evolift pode ser instalado pela opção oferecida pelo navegador quando acessado por um endereço **HTTPS** compatível. Na primeira visita, abra o aplicativo com conexão à internet para que os arquivos da interface sejam armazenados para uso offline.
+
+- **Android:** abra o endereço HTTPS no Chrome e escolha **Instalar app** ou **Adicionar à tela inicial** no menu do navegador.
+- **iPhone/iPad:** abra o endereço HTTPS no Safari, toque em **Compartilhar** e escolha **Adicionar à Tela de Início**.
+
+Os nomes das opções podem variar conforme o navegador e a versão do sistema. Depois de instalado, o Evolift abre em uma janela própria. O service worker mantém em cache os arquivos principais da interface e pode servi-los quando a rede estiver indisponível. Os treinos continuam salvos no armazenamento local do navegador daquele dispositivo.
+
+### Acessar pela rede local para testar
 
 1. Conecte o computador e o celular à mesma rede Wi-Fi.
-2. No computador, abra o terminal na pasta do projeto e execute `node .\serve.js`.
-3. No celular, abra no navegador o endereço de rede exibido pelo servidor, por exemplo `http://192.168.1.10:4173`.
+2. No computador, abra o terminal na pasta do projeto e execute:
 
-Mantenha o computador e o servidor ligados durante o acesso. Se o Windows pedir autorização para o Node.js, permita o acesso em redes privadas. Cada dispositivo mantém seus próprios dados no navegador; eles não são sincronizados. Para acessar fora da rede local, o site precisa ser publicado em um serviço de hospedagem.
+   ```powershell
+   node .\serve.js
+   ```
+
+3. No celular, abra no navegador o endereço de rede informado pelo servidor, por exemplo `http://192.168.1.10:4173`.
+
+Esse acesso por IP local em HTTP serve para testar a interface no celular, mas navegadores normalmente não consideram esse endereço um contexto seguro. Por isso, o registro do service worker e a instalação PWA podem não estar disponíveis. Para instalar o app no celular e usar o cache offline, publique o site em uma hospedagem com HTTPS. `localhost` é considerado seguro para testes no próprio computador.
+
+Mantenha o servidor ligado enquanto estiver testando pela rede local. Se o Windows solicitar acesso à rede para o Node.js, permita-o em redes privadas.
+
+## Executar localmente
+
+É necessário ter o Node.js instalado. Na pasta do projeto, inicie o servidor:
+
+```powershell
+node .\serve.js
+```
+
+Abra `http://localhost:4173` no navegador. O servidor também exibe o endereço de rede local, útil para testar em outro dispositivo conectado ao mesmo Wi-Fi.
+
+## Dados e privacidade
+
+Sem sincronização: cada navegador e dispositivo mantém seus próprios dados. Limpar os dados do site no navegador remove os registros locais. Para guardar uma cópia, use **Perfil e configurações → Exportar dados**. O arquivo exportado também pode conter dados de perfil, inclusive a foto; armazene-o com cuidado.
+
+As notificações e os lembretes em segundo plano não estão disponíveis nesta versão.
 
 ## Tecnologias
 
-- HTML5
-- CSS3
-- JavaScript
+- HTML, CSS e JavaScript sem frameworks.
+- Web App Manifest para metadados e instalação do PWA.
+- Service worker para cache da interface e suporte offline após o carregamento inicial.
+- `localStorage` para semanas, treinos, perfil e preferências.
+- Servidor de desenvolvimento Node.js simples, sem dependências externas.
 
-## Estrutura
+## Estrutura do projeto
 
 ```text
 Evolift/
-├── index.html
+├── assets/
+│   └── logo-evolift-transparente.png
+├── icons/
+│   ├── evolift.ico
+│   ├── icon-192.png
+│   └── icon-512.png
 ├── js/
 │   └── script.js
 ├── styles/
 │   └── style.css
+├── index.html
+├── manifest.json
+├── service-worker.js
+├── serve.js
 └── README.md
 ```

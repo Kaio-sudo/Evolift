@@ -370,12 +370,6 @@ svg {
     stroke-width: 1.5;
 }
 
-.week-range {
-    margin: 6px 0 16px;
-    color: #747f74;
-    font-size: 10px;
-}
-
 .weekly-progress {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(230px, .7fr);
@@ -602,14 +596,6 @@ svg {
     border-color: #59483a;
     background: #302a22;
     color: #d0a17e;
-}
-
-.day-panel-note {
-    margin: auto 5px 0;
-    padding-top: 21px;
-    color: #737d72;
-    font-size: 9px;
-    line-height: 1.6;
 }
 
 .workout-panel {
@@ -1093,39 +1079,6 @@ svg {
     font-size: 17px;
     font-weight: 300;
     line-height: 1;
-}
-
-.storage-note {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    margin: 14px 0 0;
-    color: #687469;
-    font-size: 9px;
-}
-
-.storage-note svg {
-    width: 13px;
-    height: 13px;
-    fill: none;
-    stroke: currentColor;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 1.2;
-}
-
-.page-footer {
-    padding-top: 18px;
-    color: #647064;
-    font-family: var(--serif);
-    font-size: 10px;
-    text-align: center;
-}
-
-.page-footer span {
-    padding: 0 4px;
-    color: #a8856f;
 }
 
 .dialog {
@@ -1690,10 +1643,6 @@ svg {
     .day-meta {
         gap: 5px;
     }
-
-    .day-panel-note {
-        display: none;
-    }
 }
 
 @media (max-width: 520px) {
@@ -1774,10 +1723,6 @@ svg {
         height: 14px;
     }
 
-    .week-range {
-        margin-top: 8px;
-    }
-
     .weekly-progress {
         grid-template-columns: 1fr;
         gap: 13px;
@@ -1841,17 +1786,6 @@ svg {
 
     .exercise-number {
         grid-row: 1;
-    }
-
-    .storage-note {
-        align-items: flex-start;
-        font-size: 8px;
-        line-height: 1.5;
-        text-align: center;
-    }
-
-    .storage-note svg {
-        flex: 0 0 13px;
     }
 
     .exercise-form {
@@ -2025,10 +1959,7 @@ svg {
 }
 
 :root[data-theme="light"] .intro h1 span,
-:root[data-theme="light"] .intro-copy,
-:root[data-theme="light"] .week-range,
-:root[data-theme="light"] .storage-note,
-:root[data-theme="light"] .page-footer {
+:root[data-theme="light"] .intro-copy {
     color: #687568;
 }
 
@@ -2105,8 +2036,7 @@ svg {
 }
 
 :root[data-theme="light"] .panel-label span,
-:root[data-theme="light"] .day-summary,
-:root[data-theme="light"] .day-panel-note {
+:root[data-theme="light"] .day-summary {
     color: #778276;
 }
 
@@ -2537,7 +2467,6 @@ svg {
         font-size: 22px;
     }
 
-    .week-range,
     .weekly-progress-value span,
     .day-name,
     .day-summary,
@@ -2564,8 +2493,7 @@ svg {
     .set-input-field > span small,
     .form-field > span,
     .form-field > span small,
-    .data-actions .button,
-    .page-footer {
+    .data-actions .button {
         font-size: 11px;
     }
 
@@ -2596,10 +2524,6 @@ svg {
     .exercise-action {
         width: 40px;
         height: 40px;
-    }
-
-    .storage-note {
-        font-size: 10px;
     }
 }
 

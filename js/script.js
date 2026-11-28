@@ -17,7 +17,6 @@ const elements = {
     greeting: document.querySelector("#greeting"),
     todayDate: document.querySelector("#today-date"),
     weekSelect: document.querySelector("#week-select"),
-    weekRange: document.querySelector("#week-range"),
     previousWeek: document.querySelector("#previous-week"),
     nextWeek: document.querySelector("#next-week"),
     weeklyProgressSummary: document.querySelector("#weekly-progress-summary"),
@@ -587,7 +586,6 @@ function renderWeekPicker() {
         return option;
     });
     elements.weekSelect.replaceChildren(...options);
-    elements.weekRange.textContent = `Segunda a sexta · ${getWeekRange(getSelectedWeek().startDate)}`;
 
     const selectedIndex = weeks.findIndex((week) => week.id === state.selectedWeekId);
     elements.previousWeek.disabled = selectedIndex <= 0;

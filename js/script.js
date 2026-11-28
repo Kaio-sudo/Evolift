@@ -617,12 +617,16 @@ function renderDayList() {
         const name = document.createElement("span");
         name.className = "day-name";
         name.textContent = dayDetails.shortName;
-        const summary = document.createElement("span");
-        summary.className = "day-summary";
-        summary.textContent = hasRest(day)
+        const summaryText = hasRest(day)
             ? "Descanso registrado"
-            : day.name.trim() || (day.exercises.length ? `${day.exercises.length} atividades` : "Sem treino definido");
-        copy.append(name, summary);
+            : day.name.trim() || (day.exercises.length ? `${day.exercises.length} atividades` : "");
+        copy.append(name);
+        if (summaryText) {
+            const summary = document.createElement("span");
+            summary.className = "day-summary";
+            summary.textContent = summaryText;
+            copy.append(summary);
+        }
 
         const meta = document.createElement("span");
         meta.className = "day-meta";

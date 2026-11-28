@@ -544,20 +544,14 @@ function loadProfileAvatar(event) {
         };
         image.onload = () => {
             try {
-                const size = 256;
-                const scale = Math.max(size / image.width, size / image.height);
+                const maxDimension = 256;
+                const scale = Math.min(1, maxDimension / image.width, maxDimension / image.height);
                 const canvas = document.createElement("canvas");
-                canvas.width = size;
-                canvas.height = size;
+                canvas.width = Math.max(1, Math.round(image.width * scale));
+                canvas.height = Math.max(1, Math.round(image.height * scale));
                 const context = canvas.getContext("2d");
                 if (!context) throw new Error("O navegador não conseguiu preparar a foto.");
-                context.drawImage(
-                    image,
-                    (size - image.width * scale) / 2,
-                    (size - image.height * scale) / 2,
-                    image.width * scale,
-                    image.height * scale
-                );
+                context.drawImage(image, 0, 0, canvas.width, canvas.height);
                 profileAvatarDraft = canvas.toDataURL("image/jpeg", 0.82);
                 renderAvatarPreview(profileAvatarDraft);
             } catch (error) {
